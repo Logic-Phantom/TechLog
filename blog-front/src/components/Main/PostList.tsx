@@ -21,7 +21,7 @@ const PostListWrapper = styled.div`
   margin: 0 auto;
   padding: 50px 0 100px;
 `
-
+//실질적인 아이템 목록 
 const PostList: FunctionComponent = function () {
   return (
     <PostListWrapper>
