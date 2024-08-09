@@ -9,8 +9,8 @@ const POST_ITEM_DATA = {
   summary:
     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident repellat doloremque fugit quis rem temporibus! Maxime molestias, suntrem debitis odit harum impedit. Modi cupiditate harum dignissimos eos in corrupti!',
   thumbnail:
-    '<https://ji5485.github.io/static/e4f34c558ae8e8235ff53b0311085796/4d854/javascript-core-concept-summary-function-1.webp>',
-  link: '<https://www.google.co.kr/>',
+    'https://github.com/codemasterli/TechLog/blob/main/blog-front/contents/react.png?raw=true',
+  link: 'https://www.google.co.kr',
 }
 
 const PostListWrapper = styled.div`
