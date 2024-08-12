@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import styled from '@emotion/styled'
-import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
+//import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
+import { GatsbyImage, IsbyImageData } from 'gatsby-plugin-image' //lazyloading
 
 // 자신이 원하는 프로필 이미지 링크로 설정해주세요.
 // const PROFILE_IMAGE_LINK =
@@ -11,22 +12,29 @@ type ProfileImageProps = {
   profileImage: IGatsbyImageData
 }
 
-const ProfileImageWrapper = styled(GatsbyImage)`
-  width: 120px;
-  height: 120px;
+//const ProfileImageWrapper = styled(GatsbyImage)` lazyloading
+const ProfileImageWrapper = styled.img`
+  width: 125px;
+  height: 125px;
   margin-bottom: 30px;
   border-radius: 50%;
-
+  object-fit: cover;
+  image-rendering: -webkit-optimize-contrast; /* For sharper image rendering */
+ 
   @media (max-width: 768px) {
     width: 80px;
     height: 80px;
   }
   `
 
-  const ProfileImage: FunctionComponent<ProfileImageProps> = function ({
-    profileImage,
-  }) {
-    return <ProfileImageWrapper image={profileImage} alt="Profile Image" />
-  }
+  // const ProfileImage: FunctionComponent<ProfileImageProps> = function ({ lazyloading
+  //   profileImage,
+  // }) {
+  //   return <ProfileImageWrapper image={profileImage} alt="Profile Image" />
+  // }
   
+  const ProfileImage: FunctionComponent = function () {
+    return <ProfileImageWrapper src={PROFILE_IMAGE_LINK} alt="Profile Image" />
+  }
+
   export default ProfileImage
