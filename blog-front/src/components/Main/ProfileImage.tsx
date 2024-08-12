@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import styled from '@emotion/styled'
-//import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
-import { GatsbyImage, IsbyImageData } from 'gatsby-plugin-image' //lazyloading
+import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
+//import { GatsbyImage, IsbyImageData } from 'gatsby-plugin-image' //lazyloading
 
 // 자신이 원하는 프로필 이미지 링크로 설정해주세요.
 // const PROFILE_IMAGE_LINK =

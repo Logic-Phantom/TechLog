@@ -1,17 +1,12 @@
 import React, { FunctionComponent } from 'react'
 import { graphql } from 'gatsby'
-import { PostPageItemType } from 'types/PostItem.types' // 바로 아래에서 정의할 것입니다
+//import { PostPageItemType } from 'types/PostItem.types' // 바로 아래에서 정의할 것입니다
 import Template from 'components/Common/Template'
 import PostHead from 'components/Post/PostHead'
 import PostContent from 'components/Post/PostContent'
 import CommentWidget from 'components/Post/CommentWidget'
 
-export type PostPageItemType = {
-    node: {
-      html: string
-      frontmatter: PostFrontmatterType
-    }
-}
+
 
 type PostTemplateProps = {
     data: {
@@ -23,7 +18,14 @@ type PostTemplateProps = {
       href: string
     }
   }
-  
+
+  export type PostPageItemType = {
+    node: {
+      html: string
+      frontmatter: PostFrontmatterType
+    }
+}
+
   const PostTemplate: FunctionComponent<PostTemplateProps> = function ({
     data: {
       allMarkdownRemark: { edges },
