@@ -10,6 +10,7 @@ import { PostListItemType } from 'types/PostItem.types'
 import { IGatsbyImageData } from 'gatsby-plugin-image'
 import queryString, { ParsedQuery } from 'query-string'
 import React, { FunctionComponent, useMemo } from 'react'
+import Template from 'components/Common/Template'
 //import { PostListItemType } from 'types/PostItem.types'
 
 const CATEGORY_LIST = {
@@ -83,18 +84,17 @@ const IndexPage: FunctionComponent<IndexPageProps> = function ({
   )
 
   return (
-    <Container>
-      <GlobalStyle />
+    <Template>
       <Introduction profileImage={gatsbyImageData} />
       <CategoryList
         selectedCategory={selectedCategory}
         categoryList={categoryList}
       />
       <PostList selectedCategory={selectedCategory} posts={edges} />
-      <Footer />
-    </Container>
+    </Template>
   )
 }
+
 
 
 
