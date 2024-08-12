@@ -3,7 +3,7 @@ date: '2020-08-12'
 title: 'JAVA'
 categories: ['Web', 'JAVA']
 summary: 'JAVA를 통하여 여유를 갖는방법'
-thumbnail: './coffee.png'
+thumbnail: './JAVAC.jpg'
 ---
 
 ### 1. Help Google Bot to Find My Contents
