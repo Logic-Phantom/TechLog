@@ -11,30 +11,33 @@ const PROFILE_IMAGE_LINK = 'https://github.com/codemasterli/TechLog/blob/main/bl
 type ProfileImageProps = {
   profileImage: IGatsbyImageData
 }
+//lazyloading
+//const ProfileImageWrapper = styled.img`
+const ProfileImageWrapper = styled(GatsbyImage)` 
 
-//const ProfileImageWrapper = styled(GatsbyImage)` lazyloading
-const ProfileImageWrapper = styled.img`
   width: 125px;
   height: 125px;
   margin-bottom: 30px;
   border-radius: 50%;
   object-fit: cover;
-  image-rendering: -webkit-optimize-contrast; /* For sharper image rendering */
- 
+  //image-rendering: -webkit-optimize-contrast; /* For sharper image rendering */
+
+
   @media (max-width: 768px) {
     width: 80px;
     height: 80px;
   }
-  `
 
-  // const ProfileImage: FunctionComponent<ProfileImageProps> = function ({ lazyloading
-  //   profileImage,
-  // }) {
-  //   return <ProfileImageWrapper image={profileImage} alt="Profile Image" />
-  // }
-  
-  const ProfileImage: FunctionComponent = function () {
-    return <ProfileImageWrapper src={PROFILE_IMAGE_LINK} alt="Profile Image" />
+  `
+ //lazy
+  const ProfileImage: FunctionComponent<ProfileImageProps> = function ({ 
+    profileImage,
+  }) {
+    return <ProfileImageWrapper image={profileImage} alt="Profile Image" />
   }
+  
+  // const ProfileImage: FunctionComponent = function () {
+  //   return <ProfileImageWrapper src={PROFILE_IMAGE_LINK} alt="Profile Image" />
+  // }
 
   export default ProfileImage
