@@ -6,6 +6,14 @@ module.exports = {
     siteUrl: 'https://my-website-link.com', // 배포 후 변경 예정
   },
   plugins: [
+    'gatsby-plugin-sitemap',
+    {
+      resolve: 'gatsby-plugin-canonical-urls',
+      options: {
+        siteUrl: '<https://my-website.com/>',
+        stripQueryString: true,
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
