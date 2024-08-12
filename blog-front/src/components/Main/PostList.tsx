@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import styled from '@emotion/styled'
 import PostItem from 'components/Main/PostItem'
+import { PostListItemType } from 'types/PostItem.types'
 
 const POST_ITEM_DATA = {
   title: 'React 시작하기',
@@ -12,6 +13,26 @@ const POST_ITEM_DATA = {
     'https://github.com/codemasterli/TechLog/blob/main/blog-front/contents/react.png?raw=true',
   link: 'https://www.google.co.kr',
 }
+
+type PostListProps = {
+  posts: PostListItemType[]
+}
+
+export type PostType = {
+  node: {
+    id: string
+    frontmatter: {
+      title: string
+      summary: string
+      date: string
+      categories: string[]
+      thumbnail: {
+        publicURL: string
+      }
+    }
+  }
+}
+
 
 const PostListWrapper = styled.div`
   display: grid;
@@ -28,10 +49,28 @@ const PostListWrapper = styled.div`
   }
 `
 //실질적인 아이템 목록 
-const PostList: FunctionComponent = function () {
+// const PostList: FunctionComponent = function () {
+//   return (
+//     <PostListWrapper>
+//       <PostItem {...POST_ITEM_DATA} />
+//     </PostListWrapper>
+//   )
+// }
+
+const PostList: FunctionComponent<PostListProps> = function ({ posts }) {
   return (
     <PostListWrapper>
-      <PostItem {...POST_ITEM_DATA} />
+      {posts.map(
+        ({
+          node: { id, frontmatter },
+        }: PostType) => (
+          <PostItem
+            {...frontmatter}
+            link="https://www.google.co.kr/"
+            key={id}
+          />
+        ),
+      )}
     </PostListWrapper>
   )
 }
