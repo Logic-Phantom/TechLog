@@ -2,7 +2,12 @@
 import styled from '@emotion/styled'
 import PostItem from 'components/Main/PostItem'
 import { PostListItemType } from 'types/PostItem.types'
-import React, { FunctionComponent, useMemo } from 'react'
+//import React, { FunctionComponent, useMemo } from 'react'
+import React, { FunctionComponent } from 'react'
+import useInfiniteScroll, {
+  useInfiniteScrollType,
+} from 'hooks/useInfiniteScroll'
+
 
 const POST_ITEM_DATA = {
   title: 'React 시작하기',
@@ -36,11 +41,26 @@ export type PostType = {
 }
 
 
+// const PostListWrapper = styled.div`
+//   display: grid;
+//   grid-template-columns: 1fr 1fr;
+//   grid-gap: 20px;
+//   width: 768px;
+//   margin: 0 auto;
+//   padding: 50px 0 100px;
+
+//   @media (max-width: 768px) {
+//     grid-template-columns: 1fr;
+//     width: 100%;
+//     padding: 50px 20px;
+//   }
+// `
+
 const PostListWrapper = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-gap: 20px;
-  width: 768px;
+  width: 1268px;
   margin: 0 auto;
   padding: 50px 0 100px;
 
@@ -50,6 +70,7 @@ const PostListWrapper = styled.div`
     padding: 50px 20px;
   }
 `
+
 //실질적인 아이템 목록 
 // const PostList: FunctionComponent = function () {
 //   return (
@@ -63,19 +84,14 @@ const PostList: FunctionComponent<PostListProps> = function ({
   selectedCategory,
   posts,
 }) {
-  const postListData = useMemo(
-    () =>
-      posts.filter(({ node: { frontmatter: { categories } } }: PostListItemType) =>
-        selectedCategory !== 'All'
-          ? categories.includes(selectedCategory)
-          : true,
-      ),
-    [selectedCategory],
+  const { containerRef, postList }: useInfiniteScrollType = useInfiniteScroll(
+    selectedCategory,
+    posts,
   )
 
   return (
-    <PostListWrapper>
-      {postListData.map(({ node: { id, frontmatter } }: PostListItemType) => (
+    <PostListWrapper ref={containerRef}>
+      {postList.map(({ node: { id, frontmatter } }: PostListItemType) => (
         <PostItem {...frontmatter} link="https://www.google.co.kr/" key={id} />
       ))}
     </PostListWrapper>
