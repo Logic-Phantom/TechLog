@@ -27,7 +27,7 @@ jobs:
     - name: Build the project in front-blog
       run: |
         cd front-blog  # front-blog 디렉토리로 이동
-        npm run build  # 빌드 명령어 (예: Gatsby 빌드)
+        gatsby build  # 빌드 명령어 (예: Gatsby 빌드)
 
     - name: Checkout io repository
       uses: actions/checkout@v3
