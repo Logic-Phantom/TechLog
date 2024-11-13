@@ -2,7 +2,7 @@
 date: '2024-11-13'
 title: 'Test'
 categories: ['Web','Test','build']
-summary: '빌드테스트입니다'
+summary: '빌드테스트입니다22'
 thumbnail: './http.png'
 ---
 
