@@ -1,0 +1,44 @@
+name: Build and Deploy to io Repo
+
+on:
+  push:
+    branches:
+      - main  # `main` 브랜치에 푸시될 때마다 실행
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout telog repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22'  # 원하는 Node.js 버전 설정
+
+    - name: Install dependencies
+      run: npm install  # 또는 yarn install
+
+    - name: Build the project
+      run: npm run build  # 빌드 명령어 (예: Gatsby 빌드)
+
+    - name: Checkout io repository
+      uses: actions/checkout@v3
+      with:
+        repository: https://github.com/codemasterli/codemasterli.github.io.git # `io` 레포지토리의 경로
+        token: ${{ secrets.MY_GITHUB_PAT }}  # GitHub Actions에서 제공하는 인증 토큰
+
+    - name: Copy build files to io repo
+      run: |
+        rm -rf ./*  # `io` 레포지토리의 기존 파일 삭제
+        cp -r ../techlog/blog-front/public/* ./  # `telog` 레포지토리에서 빌드된 파일을 `io` 레포지토리로 복사
+
+    - name: Commit and push to io repo
+      run: |
+        git config --global user.name "임채명"
+        git config --global user.email "dlacoaud92@naver.com"
+        git add .
+        git commit -m "Update build files"
+        git push origin master  # `io` 레포지토리의 `main` 브랜치에 푸시
