@@ -32,7 +32,7 @@ jobs:
     - name: Checkout io repository
       uses: actions/checkout@v3
       with:
-        repository: https://github.com/codemasterli/codemasterli.github.io.git  # io 레포지토리 URL
+        repository: codemasterli/codemasterli.github.io  # repo URL에서 'https://'는 제거하고 {owner}/{repo} 형식 사용
         token: ${{ secrets.GITHUB_TOKEN }}  # 인증 토큰, GitHub에서 자동으로 제공
 
     - name: Copy build files to io repo
