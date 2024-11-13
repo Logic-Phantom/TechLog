@@ -63,16 +63,16 @@ const TextStyle = css`
 const InfoPage: FunctionComponent<InfoPageProps> = function ({
   data: {
     site: {
-      siteMetadata: { title, description, author },
+     // siteMetadata: { title, description, author },
     },
   },
 }) {
   return (
     <div>
-      <Global styles={globalStyle} />
+      {/* <Global styles={globalStyle} />
       <div css={TextStyle}>{title}</div>
       <Text1 disable={true}>{description}</Text1>
-      <Text2 disable={true}>{author}</Text2>
+      <Text2 disable={true}>{author}</Text2> */}
     </div>
   )
 }

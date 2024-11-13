@@ -14,7 +14,7 @@
     "babel-plugin-styled-components": "^2.1.4",
     "gatsby": "^5.0.0",
     "gatsby-plugin-canonical-urls": "^5.13.1",
-    "gatsby-plugin-emotion": "^8.13.1",
+    "gatsby-plugin-emotion": "^8.14.0",
     "gatsby-plugin-image": "^3.13.1",
     "gatsby-plugin-manifest": "^5.13.1",
     "gatsby-plugin-react-helmet": "^6.13.1",
@@ -55,7 +55,7 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
-    "deploy": "gatsby build && gh-pages -d public -b main"
+    "deploy": "gatsby build && gh-pages -d public -b master"
   },
   "repository": {
     "type": "git",
