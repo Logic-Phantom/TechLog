@@ -1,0 +1,49 @@
+name: Build and Deploy to io Repo
+
+on:
+  push:
+    branches:
+      - main  # `main` 브랜치에 푸시될 때마다 실행
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Tlog repository
+      uses: actions/checkout@v3
+
+    # front-blog 디렉토리로 이동해서 빌드 진행
+    - name: Set up Node.js for front-blog
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22'  # 원하는 Node.js 버전 설정
+
+    - name: Install dependencies in front-blog
+      run: |
+        cd blog-front  # front-blog 디렉토리로 이동
+        npm install  # 또는 yarn install
+
+    - name: Build the project in front-blog
+      run: |
+        cd blog-front  # front-blog 디렉토리로 이동
+        gatsby build  # 빌드 명령어 (예: Gatsby 빌드)
+
+    - name: Checkout io repository
+      uses: actions/checkout@v3
+      with:
+        repository: codemasterli/codemasterli.github.io  # io 레포지토리 경로
+        token: ${{ secrets.MY_GITHUB_PAT }}  # GitHub Secrets로 토큰 참조
+
+    - name: Copy build files to io repo
+      run: |
+        rm -rf ./  # 기존 io 레포지토리의 파일을 모두 삭제
+        cp -r blog-front/public/* ./  # front-blog의 public 폴더에서 빌드된 파일을 io 레포지토리로 복사
+
+    - name: Commit and push to io repo
+      run: |
+        git config --global user.name "임채명"
+        git config --global user.email "dlacoaud92@naver.com"
+        git add .
+        git commit -m "Update build files"
+        git push origin master  # io 레포지토리의 master 브랜치에 푸시
