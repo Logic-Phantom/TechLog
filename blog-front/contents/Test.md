@@ -2,7 +2,7 @@
 date: '2024-11-13'
 title: 'Test'
 categories: ['Web','Test']
-summary: 'Http는 무엇일까'
+summary: '빌드테스트'
 thumbnail: './http.png'
 ---
 
