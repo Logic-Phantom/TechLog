@@ -10,30 +10,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout telog repository
+    - name: Checkout Tlog repository
       uses: actions/checkout@v3
 
-    - name: Set up Node.js
+    # front-blog 디렉토리로 이동해서 빌드 진행
+    - name: Set up Node.js for front-blog
       uses: actions/setup-node@v3
       with:
         node-version: '22'  # 원하는 Node.js 버전 설정
 
-    - name: Install dependencies
-      run: npm install  # 또는 yarn install
+    - name: Install dependencies in front-blog
+      run: |
+        cd front-blog  # front-blog 디렉토리로 이동
+        npm install  # 또는 yarn install
 
-    - name: Build the project
-      run: npm run build  # 빌드 명령어 (예: Gatsby 빌드)
+    - name: Build the project in front-blog
+      run: |
+        cd front-blog  # front-blog 디렉토리로 이동
+        npm run build  # 빌드 명령어 (예: Gatsby 빌드)
 
     - name: Checkout io repository
       uses: actions/checkout@v3
       with:
-        repository: https://github.com/codemasterli/codemasterli.github.io.git # `io` 레포지토리의 경로
-        token: ${{ secrets.MY_GITHUB_PAT }}  # GitHub Actions에서 제공하는 인증 토큰
+        repository: codemasterli/codemasterli.github.io  # io 레포지토리 경로
+        token: ${{ secrets.MY_GITHUB_PAT }}  # GitHub Secrets로 토큰 참조
 
     - name: Copy build files to io repo
       run: |
-        rm -rf ./*  # `io` 레포지토리의 기존 파일 삭제
-        cp -r ../techlog/blog-front/public/* ./  # `telog` 레포지토리에서 빌드된 파일을 `io` 레포지토리로 복사
+        rm -rf ./  # 기존 io 레포지토리의 파일을 모두 삭제
+        cp -r front-blog/public/* ./  # front-blog의 public 폴더에서 빌드된 파일을 io 레포지토리로 복사
 
     - name: Commit and push to io repo
       run: |
@@ -41,4 +46,4 @@ jobs:
         git config --global user.email "dlacoaud92@naver.com"
         git add .
         git commit -m "Update build files"
-        git push origin master  # `io` 레포지토리의 `main` 브랜치에 푸시
+        git push origin master  # io 레포지토리의 master 브랜치에 푸시
