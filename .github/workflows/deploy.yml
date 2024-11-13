@@ -20,7 +20,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        npm install  # 또는 yarn install
+        cd blog-front  # front-blog 디렉토리로 이동
+        npm install  # front-blog 내의 package.json을 기준으로 의존성 설치
         npm install -g gatsby-cli  # gatsby-cli 글로벌 설치
 
     - name: Build the project
