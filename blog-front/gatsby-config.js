@@ -3,7 +3,7 @@ module.exports = {
     title: `LCM의 개발 블로그`,
     description: `주니어 개발자로서의 저를 표현한 블로그입니다.`,
     author: `LIM`,
-    siteUrl: 'https://codemasterli.github.io/', // 배포 후 변경 예정
+    siteUrl: 'https://codemasterli.github.io', // 배포 후 변경 예정
   },
   plugins: [
     'gatsby-plugin-sitemap',
@@ -11,7 +11,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-canonical-urls',
       options: {
-        siteUrl: '<https://codemasterli.github.io/>',
+        siteUrl: 'https://codemasterli.github.io',
         stripQueryString: true,
       },
     },
