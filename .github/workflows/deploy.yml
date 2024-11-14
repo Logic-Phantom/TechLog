@@ -11,39 +11,40 @@ jobs:
 
     steps:
     - name: Checkout telog repository
-      uses: actions/checkout@v3  # 최신 버전 유지
+      uses: actions/checkout@v3
 
     - name: Set up Node.js
-      uses: actions/setup-node@v3  # 최신 버전 유지
+      uses: actions/setup-node@v3
       with:
-        node-version: '20'  # Node.js 20 버전 명시적으로 설정
+        node-version: '20'
 
     - name: Install dependencies
       run: |
         cd blog-front  # front-blog 디렉토리로 이동
-        npm install  # front-blog 내의 package.json을 기준으로 의존성 설치
+        npm install  # 의존성 설치
         npm install -g gatsby-cli  # gatsby-cli 글로벌 설치
 
     - name: Build the project
       run: |
         cd blog-front  # front-blog 디렉토리로 이동
-        gatsby build  # 빌드 명령어
+        gatsby build  # Gatsby 빌드
 
     - name: Checkout io repository
       uses: actions/checkout@v3
       with:
-        repository: codemasterli/codemasterli.github.io  # repo URL에서 'https://'는 제거하고 {owner}/{repo} 형식 사용
-        token: ${{ secrets.GITHUB_TOKEN }}  # 인증 토큰, GitHub에서 자동으로 제공
+        repository: codemasterli/codemasterli.github.io  # io 레포지토리
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Copy build files to io repo
       run: |
-        rm -rf ./*  # io 레포지토리의 기존 파일을 삭제
-        cp -r ../blog-front/public/* ./  # 빌드된 파일을 io 레포지토리로 복사
+        cd blog-front  # blog-front 디렉토리로 이동
+        rm -rf ./public/*  # io 레포지토리의 기존 파일 삭제
+        cp -r ./public/* ./  # public 디렉토리의 파일을 io 레포지토리로 복사
 
     - name: Commit and push to io repo
       run: |
-        git config --global user.name "Your Name"
-        git config --global user.email "your-email@example.com"
+        git config --global user.name "임채명"
+        git config --global user.email "dlacoaud92@naver.com"
         git add .
         git commit -m "Deploy latest build"
         git push origin master  # io 레포지토리의 master 브랜치에 푸시
