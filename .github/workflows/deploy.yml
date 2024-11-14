@@ -10,8 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout telog repository
+    - name: Checkout Techlog repository
       uses: actions/checkout@v3
+      with:
+        submodules: true  # 필요한 경우 서브모듈 체크아웃
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
@@ -20,13 +22,13 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd blog-front  # front-blog 디렉토리로 이동
+        cd blog-front  # blog-front 디렉토리로 이동
         npm install  # 의존성 설치
         npm install -g gatsby-cli  # gatsby-cli 글로벌 설치
 
     - name: Build the project
       run: |
-        cd blog-front  # front-blog 디렉토리로 이동
+        cd blog-front  # blog-front 디렉토리로 이동
         gatsby build  # Gatsby 빌드
 
     - name: Checkout io repository
@@ -34,15 +36,15 @@ jobs:
       with:
         repository: codemasterli/codemasterli.github.io  # io 레포지토리
         token: ${{ secrets.GITHUB_TOKEN }}
+        path: io_repo  # 다른 경로에 체크아웃 (io_repo로 명명)
 
     - name: Copy build files to io repo
       run: |
-        cd blog-front  # blog-front 디렉토리로 이동
-        rm -rf ./public/*  # io 레포지토리의 기존 파일 삭제
-        cp -r ./public/* ./  # public 디렉토리의 파일을 io 레포지토리로 복사
+        cp -r blog-front/public/* io_repo/  # 빌드된 파일을 io_repo로 복사
 
     - name: Commit and push to io repo
       run: |
+        cd io_repo  # io_repo 디렉토리로 이동
         git config --global user.name "임채명"
         git config --global user.email "dlacoaud92@naver.com"
         git add .
