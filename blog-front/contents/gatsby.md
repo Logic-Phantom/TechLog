@@ -1,7 +1,7 @@
 ---
 date: '2024-11-14'
 title: 'Gastby'
-categories: ['Gastby', 'React']
+categories: ['Gatsby', 'React']
 summary: 'Gatsby란 ..?'
 thumbnail: './images/gatsby/gatsby4.png'
 ---
