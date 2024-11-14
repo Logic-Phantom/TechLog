@@ -103,7 +103,7 @@ const MarkdownRenderer = styled.div`
   // Markdown Responsive Design
   @media (max-width: 768px) {
     width: 100%;
-    padding: 140px 20px 0 0;
+    padding: 140px 20px 0 20px;
     line-height: 1.6;
     font-size: 14px;
 
