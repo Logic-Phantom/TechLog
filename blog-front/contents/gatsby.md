@@ -1,6 +1,6 @@
 ---
 date: '2024-11-14'
-title: 'Gastby'
+title: 'Gatsby'
 categories: ['Gatsby', 'React']
 summary: 'Gatsby란 ..?'
 thumbnail: './images/gatsby/gatsby4.png'
