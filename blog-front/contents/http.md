@@ -1,7 +1,7 @@
 ---
 date: '2024-11-20'
 title: '네트워크'
-categories: ['HttP','NetWork']
+categories: ['HTTP','NetWork']
 summary: '네트워크(Network)란 뭘까..?'
 thumbnail: './images/http/http.png'
 ---
