@@ -1,7 +1,7 @@
 ---
 date: '2024-11-19'
 title: 'MarkUp'
-categories: ['MarkUp']
+categories: ['MarkUp & MarkDown']
 summary: 'MarkUp 과 MarkDown..?'
 thumbnail: './images/markup/markdown.png'
 ---
