@@ -8,7 +8,7 @@ thumbnail: './images/markup/markdown.png'
 
 ## 들어가며
 블로그 게시물을 작성할때 markDown으로 작성을 한다. 
-게시글을 작성할때  markup 과 markdown 의 차이를 명확하게 알면 좋을거 같아한번 작성하게 됐다.
+게시글을 작성할때  markup 과 markdown 의 차이를 명확하게 알면 좋을거 같아 작성한다.
 
 ---
 
