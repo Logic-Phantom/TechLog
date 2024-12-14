@@ -3,7 +3,7 @@ date: '2024-12-14'
 title: 'HTTP 메서드'
 categories: ['HTTP','NetWork']
 summary: 'HTTP 메서드에 대하여...'
-thumbnail: './images/http/http-httpS.png'
+thumbnail: './images/http/http-https.png'
 ---
 ## 들어가며
 주에 한번 스터디 그룹을 시작햇다. 너무 그동안 블로그 글을 작성하지 못하여 이 기회에 매주 한개의 게시물을 작성을 목표로 세우고 시작해보고자 한다. 
