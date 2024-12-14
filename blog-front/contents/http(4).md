@@ -120,7 +120,7 @@ URI는 리소스로만 식별 하는것을 권장한다.
 
 
 ## HTTP 메서드의 속성
-  ![](./images/http/http table.png)  
+  ![](./images/http/httptable.png)  
 
 ### 안전(safe)
 호출해도 리소스를 변경하지 않는다. 
