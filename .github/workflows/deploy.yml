@@ -49,6 +49,10 @@ jobs:
         cd io_repo  # io_repo 디렉토리로 이동
         git config --global user.name "임채명"
         git config --global user.email "dlacoaud92@naver.com"
-        git add .
-        git commit -m "Deploy latest build"
-        git push origin master  # io 레포지토리의 master 브랜치에 푸시
+        if [ -n "$(git status --porcelain)" ]; then
+          git add .
+          git commit -m "Deploy latest build"
+          git push origin master  # io 레포지토리의 master 브랜치에 푸시
+        else
+          echo "No changes to commit"
+        fi
