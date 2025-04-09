@@ -36,7 +36,7 @@ jobs:
     - name: Checkout io repository
       uses: actions/checkout@v3
       with:
-        repository: codemasterli/codemasterli.github.io  # io 레포지토리
+        repository: Logic-Phantom/Logic-Phantom.github.io # io 레포지토리
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         path: io_repo  # 다른 경로에 체크아웃 (io_repo로 명명)
 
