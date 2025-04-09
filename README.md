@@ -1,9 +1,9 @@
-# 🧑‍💻 codemasterli.github.io
+## 🧑‍💻 logic-phantom.github.io
 
 개발자의 생각과 배움을 기록하는 **개인 기술 블로그**입니다.  
 [Gatsby](https://www.gatsbyjs.com/) 기반으로 구축되었으며, GitHub Pages를 통해 배포됩니다.
 
-> 📍 블로그 주소: [https://codemasterli.github.io](https://codemasterli.github.io)
+> 📍 블로그 주소: [https://logic-phantom.github.io](https://logic-phantom.github.io)
 
 ---
 
