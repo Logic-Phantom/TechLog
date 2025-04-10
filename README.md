@@ -21,10 +21,10 @@
 ```
 codemasterli.github.io/
 ├── content/ # 블로그 글 (Markdown)
-├── src/ # Gatsby 소스 코드 │
-├── components/ # 공통 컴포넌트 │
-├── pages/ # 라우트 페이지 │
-└── templates/ # 마크다운 포스트 템플릿
+├── src/ # Gatsby 소스 코드
+│    ├── components/ # 공통 컴포넌트
+│    ├── pages/ # 라우트 페이지
+│    └── templates/ # 마크다운 포스트 템플릿
 ├── static/ # 정적 파일 (이미지 등)
 ├── gatsby-config.js # Gatsby 설정
 ├── package.json
