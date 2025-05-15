@@ -16,7 +16,7 @@ const POST_ITEM_DATA = {
   summary:
     'React를 사용하여 블로그 만들기 시작',
   thumbnail:
-    'https://github.com/codemasterli/TechLog/blob/main/blog-front/contents/react.png?raw=true',
+    'https://github.com/logic-phantom/TechLog/blob/main/blog-front/contents/react.png?raw=true',
   link: 'https://www.google.co.kr',
 }
 

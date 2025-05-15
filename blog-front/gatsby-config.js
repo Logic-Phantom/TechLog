@@ -3,7 +3,7 @@ module.exports = {
     title: `Forest_LIM`,
     description: `경험을 기록해두는 공간`,
     author: `LIM`,
-    siteUrl: 'https://codemasterli.github.io', // 배포 후 변경 예정
+    siteUrl: 'https://logic-phantom.github.io', // 배포 후 변경 예정
   },
   plugins: [
     'gatsby-plugin-sitemap',
@@ -11,7 +11,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-canonical-urls',
       options: {
-        siteUrl: 'https://codemasterli.github.io',
+        siteUrl: 'https://logic-phantom.github.io',
         stripQueryString: true,
       },
     },
