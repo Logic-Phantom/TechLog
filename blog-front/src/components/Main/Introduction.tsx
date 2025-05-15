@@ -10,98 +10,86 @@ type IntroductionProps = {
 const Introduction: FunctionComponent<IntroductionProps> = ({ profileImage }) => {
   return (
     <Background>
-      <Wrapper>
-        <Left>
+      <Card>
+        <ImageWrapper>
           <StyledProfileImage profileImage={profileImage} />
-        </Left>
-        <Right>
-          <SubTitle>Hello World, I'm</SubTitle>
-          <Title>Forest_LIM 🌲</Title>
+        </ImageWrapper>
+        <TextContent>
+          <SubTitle>안녕하세요,</SubTitle>
+          <Title>Forest_LIM 입니다 🌿</Title>
           <Description>
-            A Junior Frontend Developer passionate about <strong>clean UI</strong> and <strong>creative UX</strong>.<br />
-            I enjoy learning new technologies and building something meaningful with code.
+            끊임없이 배우고, 성장하며<br />
+            사용자에게 더 나은 경험을 선물하는 프론트엔드 개발자입니다.
           </Description>
-        </Right>
-      </Wrapper>
+        </TextContent>
+      </Card>
     </Background>
   )
 }
 
 export default Introduction
 
-// 🎨 Styled Components
+// 🎨 Styled Components (변경 없음)
 
 const Background = styled.div`
   width: 100%;
-  background: linear-gradient(60deg, #29323c 0%, #485563 100%);
-  color: #ffffff;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ece9e6 0%, #ffffff 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 60px 20px;
 `
 
-const Wrapper = styled.div`
+const Card = styled.div`
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  padding: 40px;
   display: flex;
+  gap: 40px;
   align-items: center;
-  max-width: 960px;
-  margin: 0 auto;
+  max-width: 900px;
+  width: 100%;
 
   @media (max-width: 768px) {
     flex-direction: column;
     text-align: center;
+    gap: 20px;
   }
 `
 
-const Left = styled.div`
+const ImageWrapper = styled.div`
   flex-shrink: 0;
-  margin-right: 40px;
-
-  @media (max-width: 768px) {
-    margin-right: 0;
-    margin-bottom: 20px;
-  }
 `
 
 const StyledProfileImage = styled(ProfileImage)`
-  border-radius: 50%;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
   width: 160px;
   height: 160px;
-  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
 `
 
-const Right = styled.div`
+const TextContent = styled.div`
   flex: 1;
 `
 
 const SubTitle = styled.div`
-  font-size: 18px;
-  color: #ccc;
+  font-size: 20px;
+  color: #666;
   margin-bottom: 8px;
-
-  @media (max-width: 768px) {
-    font-size: 16px;
-  }
 `
 
 const Title = styled.div`
-  font-size: 32px;
-  font-weight: bold;
+  font-size: 36px;
+  font-weight: 800;
+  color: #222;
   margin-bottom: 16px;
-
-  @media (max-width: 768px) {
-    font-size: 24px;
-  }
 `
 
 const Description = styled.div`
-  font-size: 16px;
-  line-height: 1.6;
-  color: #eee;
-
-  strong {
-    color: #ffffff;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 14px;
-  }
+  font-size: 18px;
+  line-height: 1.7;
+  color: #444;
 `
