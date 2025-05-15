@@ -16,6 +16,18 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Forest_LIM Tech Blog`,
+        short_name: `Forest_LIM`,
+        start_url: `/`,
+        background_color: `#ffffff`,
+        theme_color: `#426950`,
+        display: `minimal-ui`,
+        icon: `contents/forest.ico`, // 상대 경로로 수정
+      },
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `contents`,
