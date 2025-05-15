@@ -4,6 +4,7 @@ title: 'AI모델 객체탐지'
 categories: ['AI']
 summary: 'YOLOv5..?'
 thumbnail: './images/AI/ai.jpg'
+comments: true
 ---
 
 # YOLOv5를 활용한 이미지 객체 탐지 및 데이터 변환
