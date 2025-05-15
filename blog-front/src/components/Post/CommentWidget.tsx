@@ -12,7 +12,6 @@ type UtterancesAttributesType = {
   theme: string
   crossorigin: string
   async: string
-
 };
 
 const UtterancesWrapper = styled.div`
@@ -32,8 +31,8 @@ const CommentWidget: FunctionComponent = function () {
     const attributes: UtterancesAttributesType = {
       src,
       repo,
-      'issue-term': 'pathname',
-      label: 'Comment',
+      'issue-term': 'title',
+      label: 'comment',
       theme: `github-light`,
       crossorigin: 'anonymous',
       async: 'true',
