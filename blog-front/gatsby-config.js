@@ -24,7 +24,7 @@ module.exports = {
         background_color: `#ffffff`,
         theme_color: `#426950`,
         display: `minimal-ui`,
-        icon: `contents/forest.ico`, // 상대 경로로 수정
+        icon: `contents/forestLim.png`, // 상대 경로로 수정
       },
     },
     {
