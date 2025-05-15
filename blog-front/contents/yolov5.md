@@ -1,8 +1,8 @@
 ---
-date: '2025-05-15'
-title: 'AI모델 객체탐지'
-categories: ['AI']
-summary: 'YOLOv5..?'
+date: '2024-05-15'
+title: 'YOLOv5를 활용한 객체 탐지'
+categories: ['AI', 'Computer Vision']
+summary: 'YOLOv5를 사용한 이미지 객체 탐지와 데이터 변환 과정'
 thumbnail: './images/AI/ai.jpg'
 comments: true
 ---
@@ -38,6 +38,7 @@ YOLO(You Only Look Once)는 실시간 객체 탐지(Object Detection)를 위한 
 ## 객체 탐지 워크플로우
 
 ### 1. 이미지 객체 탐지
+
 ```python
 import torch
 
@@ -52,6 +53,7 @@ detections = results.pandas().xyxy[0]  # 바운딩 박스 좌표
 ```
 
 ### 2. JSON 데이터 생성
+
 탐지된 객체 정보를 JSON 형식으로 변환하는 예시:
 
 ```python
@@ -79,6 +81,7 @@ def create_detection_json(detections):
 ```
 
 ### 3. XML 변환
+
 JSON 데이터를 XML 형식으로 변환하는 예시:
 
 ```python
