@@ -1,5 +1,5 @@
 ---
-date: '2024-05-15'
+date: '2025-05-15'
 title: 'YOLOv5를 활용한 객체 탐지'
 categories: ['AI', 'Computer Vision']
 summary: 'YOLOv5를 사용한 이미지 객체 탐지와 데이터 변환 과정'
