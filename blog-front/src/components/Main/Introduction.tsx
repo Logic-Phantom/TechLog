@@ -19,7 +19,7 @@ const Introduction: FunctionComponent<IntroductionProps> = ({ profileImage }) =>
           <Title>Forest_LIM🌿</Title>
           <Description>
             끊임없이 배우고, 성장하며<br />
-            사용자에게 더 나은 경험을 선물하는 프론트엔드 개발자입니다.
+            사용자에게 더 나은 경험을 선물하는 개발자입니다.
           </Description>
         </Right>
       </Wrapper>
