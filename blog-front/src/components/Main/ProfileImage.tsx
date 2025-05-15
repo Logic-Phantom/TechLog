@@ -14,21 +14,25 @@ type ProfileImageProps = {
 //lazyloading
 //const ProfileImageWrapper = styled.img`
 const ProfileImageWrapper = styled(GatsbyImage)` 
-
-  width: 125px;
-  height: 125px;
+  width: 150px;
+  height: 150px;
   margin-bottom: 30px;
-  border-radius: 50%;
+  border-radius: 15px;
   object-fit: cover;
-  //image-rendering: -webkit-optimize-contrast; /* For sharper image rendering */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-
-  @media (max-width: 768px) {
-    width: 80px;
-    height: 80px;
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
   }
 
-  `
+  @media (max-width: 768px) {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+  }
+`
  //lazy
   const ProfileImage: FunctionComponent<ProfileImageProps> = function ({ 
     profileImage,

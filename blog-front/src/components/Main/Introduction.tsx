@@ -16,7 +16,7 @@ const Introduction: FunctionComponent<IntroductionProps> = ({ profileImage }) =>
         </Left>
         <Right>
         <SubTitle>안녕하세요,</SubTitle>
-          <Title>Forest_LIM 입니다 🌿</Title>
+          <Title>Forest_LIM🌿</Title>
           <Description>
             끊임없이 배우고, 성장하며<br />
             사용자에게 더 나은 경험을 선물하는 프론트엔드 개발자입니다.
