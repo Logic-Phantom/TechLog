@@ -1,4 +1,5 @@
 module.exports = {
+  pathPrefix: `/`,  // GitHub Pages를 위한 path prefix 설정
   siteMetadata: {
     title: `Forest_LIM`,
     description: `경험을 기록해두는 공간`,
@@ -20,11 +21,49 @@ module.exports = {
       options: {
         name: `Forest_LIM Tech Blog`,
         short_name: `Forest_LIM`,
+        description: `경험을 기록해두는 공간`,
         start_url: `/`,
         background_color: `#ffffff`,
         theme_color: `#426950`,
-        display: `minimal-ui`,
-        icon: `contents/forestLim.png`, // 상대 경로로 수정
+        display: `standalone`,
+        icon: `contents/forestLim.png`,
+        icons: [
+          {
+            src: `contents/forestLim.png`,
+            sizes: `192x192`,
+            type: `image/png`,
+            purpose: `any maskable`,
+          },
+          {
+            src: `contents/forestLim.png`,
+            sizes: `512x512`,
+            type: `image/png`,
+            purpose: `any maskable`,
+          },
+        ],
+        cache_busting_mode: 'none',
+        crossOrigin: `use-credentials`,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-offline`,
+      options: {
+        workboxConfig: {
+          runtimeCaching: [
+            {
+              urlPattern: /(\.js$|\.css$|static\/)/,
+              handler: `CacheFirst`,
+            },
+            {
+              urlPattern: /^https?:.*\/page-data\/.*\.json/,
+              handler: `NetworkFirst`,
+            },
+            {
+              urlPattern: /^https?:.*\.(png|jpg|jpeg|webp|svg|gif|tiff)/,
+              handler: `CacheFirst`,
+            },
+          ],
+        },
       },
     },
     {
@@ -50,14 +89,6 @@ module.exports = {
     },
     `gatsby-plugin-emotion`,
     `gatsby-plugin-react-helmet`,
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `contents`,
-        path: `${__dirname}/contents`,
-      },
-    },
-    //`gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-plugin-sharp`,
