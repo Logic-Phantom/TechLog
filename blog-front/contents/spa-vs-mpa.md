@@ -10,7 +10,6 @@ comments: true
 # 🌐 SPA vs MPA: 현대 웹 개발의 두 가지 패러다임
 
 ## 📚 개요
-
 웹 애플리케이션을 개발할 때 가장 먼저 고려해야 할 아키텍처 결정 중 하나는 SPA(Single Page Application)와 MPA(Multi Page Application) 중 어떤 방식을 선택할지입니다. 각각의 접근 방식은 고유한 특징과 장단점을 가지고 있어, 프로젝트의 요구사항에 따라 신중히 선택해야 합니다.
 
 ## 💡 기본 개념
@@ -157,7 +156,6 @@ def about():
 - 서버 사이드 캐싱
 
 ## 🎓 결론
-
 SPA와 MPA는 각각의 장단점이 뚜렷합니다. 프로젝트의 특성과 요구사항을 고려하여 선택해야 합니다:
 
 - **SPA 선택 시**
@@ -173,7 +171,6 @@ SPA와 MPA는 각각의 장단점이 뚜렷합니다. 프로젝트의 특성과 
 > 💡 **팁**: 현대에는 Next.js나 Nuxt.js 같은 프레임워크를 사용하여 SPA와 MPA의 장점을 모두 활용할 수 있습니다.
 
 ## 🔗 참고 자료
-
 - [MDN Web Docs](https://developer.mozilla.org)
 - [React 공식 문서](https://reactjs.org)
 - [Vue.js 공식 문서](https://vuejs.org)

@@ -10,11 +10,9 @@ comments: true
 # YOLOv5를 활용한 이미지 객체 탐지 및 데이터 변환
 
 ## YOLOv5 소개
-
 YOLO(You Only Look Once)는 실시간 객체 탐지(Object Detection)를 위한 최첨단 딥러닝 모델입니다. YOLOv5는 Ultralytics에서 개발한 YOLO 시리즈의 5번째 버전으로, 이전 버전들의 장점을 계승하면서 성능과 사용성을 크게 개선했습니다.
 
 ### YOLOv5의 주요 특징
-
 1. **빠른 처리 속도**
    - 실시간 객체 탐지가 가능한 빠른 추론 속도
    - GPU 및 CPU 환경 모두에서 효율적인 성능
@@ -38,7 +36,6 @@ YOLO(You Only Look Once)는 실시간 객체 탐지(Object Detection)를 위한 
 ## 객체 탐지 워크플로우
 
 ### 1. 이미지 객체 탐지
-
 ```python
 import torch
 
@@ -53,7 +50,6 @@ detections = results.pandas().xyxy[0]  # 바운딩 박스 좌표
 ```
 
 ### 2. JSON 데이터 생성
-
 탐지된 객체 정보를 JSON 형식으로 변환하는 예시:
 
 ```python
@@ -81,7 +77,6 @@ def create_detection_json(detections):
 ```
 
 ### 3. XML 변환
-
 JSON 데이터를 XML 형식으로 변환하는 예시:
 
 ```python
@@ -127,7 +122,6 @@ def json_to_xml(json_data):
    - 새로운 객체 클래스 추가 용이
 
 ## 참고 자료
-
 - [YOLOv5 GitHub Repository](https://github.com/ultralytics/yolov5)
 - [YOLOv5 Documentation](https://docs.ultralytics.com/)
 - [PyTorch Documentation](https://pytorch.org/docs/stable/index.html) 
