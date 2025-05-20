@@ -3,7 +3,7 @@ date: '2025-05-18'
 title: '🤖 AI 코딩 어시스턴트: GitHub Copilot과 Cursor AI 비교 분석'
 categories: ['Development', 'AI', 'Tools']
 summary: 'GitHub Copilot과 Cursor AI의 특징, 장단점 및 미래 전망에 대한 심층 분석'
-thumbnail: './images/AI/coding-assistant.png'
+thumbnail: './images/AI/coding-assistant2.png'
 comments: true
 ---
 
