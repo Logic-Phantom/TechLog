@@ -3,7 +3,7 @@ date: '2025-05-20'
 title: 'Next.js란 무엇인가? 개요와 특징 정리'
 categories: [JavaScript, Next.js, react]
 summary: 'Next.. 다음은..?'
-thumbnail: './images/next/next2.png'
+thumbnail: './images/next/next.png'
 comments: true
 ---
 > **Next.js**는 React 기반의 프레임워크로, 서버 사이드 렌더링(SSR)과 정적 사이트 생성(SSG)을 손쉽게 지원하며, 개발자 경험을 극대화해주는 도구입니다.
