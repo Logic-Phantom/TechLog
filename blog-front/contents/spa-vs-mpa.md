@@ -3,7 +3,7 @@ date: '2025-05-16'
 title: '🌐 SPA vs MPA: 웹 아키텍처의 두 가지 접근 방식'
 categories: ['Web Development', 'Architecture', 'Frontend']
 summary: '단일 페이지 애플리케이션(SPA)과 다중 페이지 애플리케이션(MPA)의 특징, 장단점 및 적절한 사용 사례 비교'
-thumbnail: './images/spa-mpa/spa-mpa.png'
+thumbnail: './images/spa-mpa/spa-mpa2.png'
 comments: true
 ---
 

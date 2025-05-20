@@ -3,7 +3,7 @@ date: '2024-12-03'
 title: 'HTTP 프로토콜의 이해'
 categories: ['HTTP', 'Network']
 summary: 'HTTP 프로토콜의 특징과 구조 상세 분석'
-thumbnail: './images/http/httpS.png'
+thumbnail: './images/http/NetWork2.png'
 comments: true
 ---
 

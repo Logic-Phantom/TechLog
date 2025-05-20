@@ -3,7 +3,7 @@ date: '2024-11-25'
 title: 'DNS와 URI의 이해'
 categories: ['HTTP', 'Network']
 summary: 'DNS와 URI의 개념 및 웹 브라우저 요청 흐름 이해하기'
-thumbnail: './images/http/NetWork.png'
+thumbnail: './images/http/httpsUri.png'
 comments: true
 ---
 

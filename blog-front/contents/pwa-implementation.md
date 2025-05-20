@@ -3,7 +3,7 @@ date: '2025-05-17'
 title: '🚀 PWA로 웹사이트를 앱처럼 만들기'
 categories: ['Web Development', 'PWA', 'Gatsby']
 summary: 'Progressive Web App(PWA)을 통해 웹사이트를 네이티브 앱처럼 동작하게 만드는 방법'
-thumbnail: './images/pwa/pwa.png'
+thumbnail: './images/pwa/pwa2.png'
 comments: true
 ---
 

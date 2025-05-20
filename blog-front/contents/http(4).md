@@ -3,7 +3,7 @@ date: '2024-12-14'
 title: 'HTTP 메서드 완벽 가이드'
 categories: ['HTTP', 'Network', 'Web']
 summary: 'HTTP 메서드의 종류와 특징, 그리고 올바른 사용법'
-thumbnail: './images/http/http-https.png'
+thumbnail: './images/http/http-https2.png'
 comments: true
 ---
 
