@@ -3,7 +3,7 @@ date: '2024-11-20'
 title: '네트워크의 기초와 HTTP'
 categories: ['HTTP', 'Network']
 summary: '네트워크와 HTTP 프로토콜의 기본 개념 이해하기'
-thumbnail: './images/http/http.png'
+thumbnail: './images/http/httpAl.png'
 comments: true
 ---
 
