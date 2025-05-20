@@ -3,7 +3,7 @@ date: '2024-11-19'
 title: '마크업과 마크다운의 이해'
 categories: ['Markup', 'Markdown', 'Web']
 summary: '마크업과 마크다운의 차이점과 활용'
-thumbnail: './images/markup/markdown.png'
+thumbnail: './images/markup/markdown2.png'
 comments: true
 ---
 
