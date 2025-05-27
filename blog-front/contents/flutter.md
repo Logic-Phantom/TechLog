@@ -1,6 +1,6 @@
 ---
 date: '2025-05-26'
-title: 'Flutter 개요'
+title: 'Flutter'
 categories: ['Mobile', 'flutter']
 summary: '크로스 플랫폼 앱 개발 가이드'
 thumbnail: './images/mob/flutter.png'
