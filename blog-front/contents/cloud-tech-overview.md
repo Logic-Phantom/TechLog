@@ -1,5 +1,5 @@
 ---
-date: '2025-06-13'
+date: '2025-06-18'
 title: '클라우드 컴퓨팅 완전 정복'
 categories: ['cloud','web']
 summary: '개발자를 위한 클라우드 기술 개요'
