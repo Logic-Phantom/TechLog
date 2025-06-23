@@ -1,8 +1,8 @@
 ---
 date: '2025-06-05'
-title: ' 웹 워커(Web Worker) 완벽 가이드'
-categories: ['web']
-summary: '브라우저의 메인 스레드가 숨통이 트이는 순간'
+title: 'Web Workers: 브라우저에서 멀티스레딩 구현하기'
+categories: ['Web']
+summary: 'Web Workers를 활용한 브라우저 멀티스레딩 구현 방법'
 thumbnail: './images/web/web-worker.png'
 comments: true
 ---

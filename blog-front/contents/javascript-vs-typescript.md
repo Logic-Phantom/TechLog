@@ -1,8 +1,8 @@
 ---
-date: '2025-06-10'
-title: 'JavaScript vs TypeScript'
-categories: ['JavaScript' , 'TypeScript']
-summary: 'JavaScript의 미래'
+date: '2024-11-20'
+title: 'JavaScript vs TypeScript: 언제 무엇을 사용할까?'
+categories: ['Web']
+summary: 'JavaScript와 TypeScript의 비교 및 적절한 사용 시나리오'
 thumbnail: './images/web/TypeScript.png'
 comments: true
 ---

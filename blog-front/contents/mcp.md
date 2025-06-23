@@ -1,8 +1,8 @@
 ---
-date: '2025-06-04'
-title: 'MCP 서버 개요'
-categories: ['MCP']
-summary: 'Master Control Program의 개념과 아키텍처'
+date: '2024-11-20'
+title: 'MCP: Model Context Protocol'
+categories: ['개발도구']
+summary: 'AI 모델과 도구 간의 표준화된 통신 프로토콜'
 thumbnail: './images/mcp/mcp.png'
 comments: true
 ---

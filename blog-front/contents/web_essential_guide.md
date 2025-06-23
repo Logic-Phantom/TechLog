@@ -1,8 +1,8 @@
 ---
 date: '2025-06-11'
-title: '웹 개발자를 위한 필수 지식과 최신 트렌드 정리'
-categories: ['web']
-summary: 'web의 과거,현재,미래'
+title: '웹 개발 필수 가이드'
+categories: ['Web']
+summary: '웹 개발을 위한 핵심 개념과 기술 가이드'
 thumbnail: './images/web/web.png'
 comments: true
 ---
@@ -52,7 +52,7 @@ comments: true
 
 ---
 
-## 🌐 최근 트렌드 및 앞으로 주목해야 할 기술
+## 🔍 최근 트렌드 및 앞으로 주목해야 할 기술
 
 ### ✅ 1. 엣지 컴퓨팅과 엣지 배포
 - Cloudflare Workers, Vercel Edge Functions

@@ -1,7 +1,7 @@
 ---
 date: '2025-05-27'
 title: 'AI 거버넌스 플랫폼'
-categories: [AI, Governance, Ethics, Platform]
+categories: ['AI']
 summary: '신뢰할 수 있는 인공지능을 위한 필수 인프라'
 thumbnail: './images/AI/Governance.png'
 comments: true

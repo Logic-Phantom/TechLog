@@ -1,8 +1,8 @@
 ---
-date: '2025-06-18'
-title: '클라우드 컴퓨팅 완전 정복'
-categories: ['cloud','web']
-summary: '개발자를 위한 클라우드 기술 개요'
+date: '2024-11-20'
+title: '클라우드 기술 개요'
+categories: ['기타']
+summary: '클라우드 컴퓨팅의 기본 개념과 주요 서비스'
 thumbnail: './images/web/cloud.png'
 comments: true
 ---

@@ -1,9 +1,9 @@
 ---
-date: '2024-11-19'
-title: '마크업과 마크다운의 이해'
-categories: ['Markup', 'Markdown', 'Web']
-summary: '마크업과 마크다운의 차이점과 활용'
-thumbnail: './images/markup/markdown2.png'
+date: '2024-11-20'
+title: 'Markdown 완벽 가이드'
+categories: ['Web']
+summary: 'Markdown 문법과 활용 방법, 그리고 웹 개발에서의 활용'
+thumbnail: './images/markup/markdown.png'
 comments: true
 ---
 

@@ -1,9 +1,9 @@
 ---
-date: '2025-06-13'
-title: 'HTTP 상태 코드 완벽 정리'
-categories: ['web']
-summary: '응답 코드에 대하여'
-thumbnail: './images/web/httpStatus.png'
+date: '2024-11-20'
+title: 'HTTP 상태 코드 완벽 가이드'
+categories: ['HTTP']
+summary: 'HTTP 상태 코드의 종류와 의미, 그리고 올바른 사용법'
+thumbnail: './images/http/httpStatus.png'
 comments: true
 ---
 # 🌐 HTTP 상태 코드 완벽 정리

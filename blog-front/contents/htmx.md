@@ -1,15 +1,15 @@
 ---
-date: '2025-05-29'
-title: 'HTMX ...?'
-categories: [HTMX]
-summary: 'HTML의 반격'
+date: '2024-11-20'
+title: 'HTMX: 현대적인 웹 개발 접근법'
+categories: ['Web']
+summary: 'HTMX를 활용한 서버 사이드 렌더링과 동적 웹 애플리케이션'
 thumbnail: './images/html/html.png'
 comments: true
 ---
 
 # 🚀 HTMX: HTML의 반격이 시작된다
 
-> “HTML을 다시 주인공으로 만들 시간이다.”
+> "HTML을 다시 주인공으로 만들 시간이다."
 
 프론트엔드 세계는 React, Vue, Angular 같은 프레임워크가 지배해 왔습니다. 하지만 무거운 빌드, 러닝 커브, 점점 증가하는 복잡도에 지친 개발자들이 새로운 대안을 찾기 시작했습니다.
 
@@ -32,7 +32,7 @@ comments: true
 
 ## 🧠 철학: HTML을 Hypermedia로
 
-htmx는 HTML을 단순한 마크업 이상의 **Hypermedia**로 활용하자는 철학을 가지고 있습니다. “서버가 HTML을 반환하는 것이 구시대적”이라는 인식을 뒤집습니다.
+htmx는 HTML을 단순한 마크업 이상의 **Hypermedia**로 활용하자는 철학을 가지고 있습니다. "서버가 HTML을 반환하는 것이 구시대적"이라는 인식을 뒤집습니다.
 
 ```html
 <!-- htmx가 없었다면 복잡한 JS로 처리했을 코드 -->
@@ -108,7 +108,7 @@ htmx는 HTML을 단순한 마크업 이상의 **Hypermedia**로 활용하자는 
 
 htmx는 **HTML만으로도 충분히 동적인 웹앱**을 만들 수 있다는 것을 보여줍니다. 단순함과 명료함, 그리고 서버 중심의 개발 방식으로 다시 돌아가고 싶다면, htmx는 최고의 선택이 될 수 있습니다.
 
-> “더 적은 코드로 더 많은 기능을.”
+> "더 적은 코드로 더 많은 기능을."
 
 ---
 

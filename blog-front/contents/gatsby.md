@@ -1,9 +1,9 @@
 ---
-date: '2024-11-14'
-title: 'Gatsby로 정적 사이트 만들기'
-categories: ['Gatsby', 'React', 'JAMStack']
-summary: 'Gatsby와 JAMStack 아키텍처의 이해와 활용'
-thumbnail: './images/gatsby/gatsby5.png'
+date: '2024-11-20'
+title: 'Gatsby.js: 정적 사이트 생성기'
+categories: ['React']
+summary: 'Gatsby.js의 특징과 장점, 그리고 활용 방법'
+thumbnail: './images/gatsby/gatsby1.png'
 comments: true
 ---
 

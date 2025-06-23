@@ -1,15 +1,15 @@
 ---
-date: '2025-05-21'
-title: 'Vercel: 현대적인 프론트엔드 개발을 위한 클라우드 플랫폼'
-categories: ['Vercel', 'CI/CD']
-summary: '배포의 현대화 ... 편의성'
+date: '2024-11-20'
+title: 'Vercel: 현대적인 웹 배포 플랫폼'
+categories: ['CI/CD']
+summary: 'Vercel의 특징과 장점, 그리고 실제 배포 방법'
 thumbnail: './images/vercel/vercel.png'
 comments: true
 ---
 
 # Vercel : 현대적인 프론트엔드 개발을 위한 클라우드 플랫폼
 
-> “Git push로 글로벌 인프라를 가진 배포를 마친다.” — 이 말이 가능한 시대를 만든 것이 바로 Vercel이다.
+> "Git push로 글로벌 인프라를 가진 배포를 마친다." — 이 말이 가능한 시대를 만든 것이 바로 Vercel이다.
 
 ---
 
@@ -59,7 +59,7 @@ PR(Pull Request)을 생성하면 Vercel은 해당 브랜치만의 **미리보기
 
 - 피그마처럼 실시간 피드백 가능
 - 디자이너, QA, 기획자 누구나 접근 가능
-- “마치 staging 환경이 무한한 느낌”
+- "마치 staging 환경이 무한한 느낌"
 
 ---
 

@@ -1,9 +1,9 @@
 ---
-date: '2024-12-03'
-title: 'HTTP 프로토콜의 이해'
-categories: ['HTTP', 'Network']
-summary: 'HTTP 프로토콜의 특징과 구조 상세 분석'
-thumbnail: './images/http/NetWork2.png'
+date: '2024-11-20'
+title: 'HTTP/3와 QUIC 프로토콜'
+categories: ['HTTP']
+summary: 'HTTP/3의 특징과 QUIC 프로토콜의 장점'
+thumbnail: './images/http/http3.png'
 comments: true
 ---
 

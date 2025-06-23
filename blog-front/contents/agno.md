@@ -1,8 +1,8 @@
 ---
-date: '2025-06-09'
-title: 'Agno란 무엇인가?'
-categories: ['Agno']
-summary: '프론트엔드 차세대 프레임워크'
+date: '2024-11-20'
+title: 'Agno: 새로운 프로그래밍 언어'
+categories: ['기타']
+summary: 'Agno 언어의 특징과 프로그래밍 패러다임'
 thumbnail: './images/web/Agno.png'
 comments: true
 ---
@@ -18,7 +18,7 @@ comments: true
 
 ## 🔍 Agno란?
 
-**Agno**는 “Agile + No-boilerplate”의 의미를 담고 있는 **모던 선언형 UI 프레임워크**입니다. React나 Vue와 같이 컴포넌트 기반의 구조를 가지면서도, **불필요한 상태 관리 보일러플레이트를 줄이고**, **퍼포먼스를 자동으로 최적화**하는 것을 목표로 하고 있습니다.
+**Agno**는 "Agile + No-boilerplate"의 의미를 담고 있는 **모던 선언형 UI 프레임워크**입니다. React나 Vue와 같이 컴포넌트 기반의 구조를 가지면서도, **불필요한 상태 관리 보일러플레이트를 줄이고**, **퍼포먼스를 자동으로 최적화**하는 것을 목표로 하고 있습니다.
 
 ### 주요 특징
 
@@ -94,7 +94,7 @@ Agno는 다음과 같은 점에서 매우 유망한 기술로 평가받고 있�
 - **React의 보일러플레이트 피로도를 대체할 대안**
 - **빠르게 성장 중인 GitHub 커뮤니티와 기업 후원**
 - **ESLint, Prettier, VS Code 플러그인 등 IDE 친화적 생태계 구성**
-- **Solid.js, Qwik과 함께 “Zero-runtime 시대”를 선도**
+- **Solid.js, Qwik과 함께 "Zero-runtime 시대"를 선도**
 
 > 🚀 **2025년 기준**, Agno는 개발자 커뮤니티에서 가장 주목받는 차세대 UI 프레임워크 TOP 5 안에 들며, 점점 더 많은 스타트업과 팀에서 도입 중입니다.
 

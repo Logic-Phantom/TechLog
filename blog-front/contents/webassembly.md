@@ -1,7 +1,7 @@
 ---
 date: '2025-05-30'
 title: '웹어셈블리(WebAssembly): 웹의 새로운 시대를 여는 기술'
-categories: ['WebAssembly']
+categories: ['Web']
 summary: '웹어셈블리의 개념부터 장점, 활용 사례, 개발 방법까지 한눈에 살펴보는 기술 개요'
 thumbnail: './images/web/WebAssembly.png'
 comments: true

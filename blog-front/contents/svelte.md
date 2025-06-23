@@ -1,8 +1,8 @@
 ---
 date: '2025-06-02'
-title: 'Svelte란 무엇인가?'
-categories: ['Svelte' , 'Frontend']
-summary: '프론트엔드 프레임워크의 새로운 패러다임'
+title: 'Svelte: 컴파일 타임 프레임워크'
+categories: ['Web']
+summary: 'Svelte의 특징과 React, Vue와의 차이점'
 thumbnail: './images/web/Svelte.png'
 comments: true
 ---

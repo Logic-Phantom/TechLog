@@ -1,8 +1,8 @@
 ---
-date: '2025-05-28'
-title: 'JamStack'
-categories: [JamStack,'JavaScript','APIs','Markup']
-summary: '현대 웹 개발의 새로운 패러다임'
+date: '2024-11-20'
+title: 'JAMstack: 현대적인 웹 아키텍처'
+categories: ['CI/CD']
+summary: 'JAMstack의 개념과 장점, 그리고 실제 활용 사례'
 thumbnail: './images/javascript/JamStack.png'
 comments: true
 ---

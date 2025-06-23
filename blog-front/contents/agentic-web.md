@@ -1,8 +1,8 @@
 ---
-date: '2025-05-22'
-title: '모두를 AI 에이전트 WEB으로 끌어들인다'
-categories: ['agentic', 'AI',]
-summary: '오픈AI....어디까지 발전할까?'
+date: '2024-11-20'
+title: 'Agentic Web: AI 기반 웹 자동화'
+categories: ['AI']
+summary: 'AI 에이전트를 활용한 웹 자동화와 새로운 웹 경험'
 thumbnail: './images/AI/agentic.png'
 comments: true
 ---

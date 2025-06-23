@@ -1,9 +1,9 @@
 ---
-date: '2025-05-16'
-title: 'Vibe Coding: 새로운 개발 문화의 시작'
-categories: ['Development Culture', 'Trend', 'Lifestyle']
-summary: '감성과 기술이 만나는 새로운 코딩 트렌드, Vibe Coding의 모든 것'
-thumbnail: './images/vibe/vibe-coding2.png'
+date: '2024-11-20'
+title: 'Vibe Coding: 개발 생산성 향상 도구'
+categories: ['개발도구']
+summary: 'Vibe Coding을 활용한 개발 워크플로우 최적화'
+thumbnail: './images/vibe/vibe-coding.png'
 comments: true
 ---
 

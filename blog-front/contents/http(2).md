@@ -1,9 +1,9 @@
 ---
-date: '2024-11-25'
-title: 'DNS와 URI의 이해'
-categories: ['HTTP', 'Network']
-summary: 'DNS와 URI의 개념 및 웹 브라우저 요청 흐름 이해하기'
-thumbnail: './images/http/httpsUri.png'
+date: '2024-11-20'
+title: 'HTTP/2 프로토콜의 특징과 개선점'
+categories: ['HTTP']
+summary: 'HTTP/2의 주요 특징과 HTTP/1.1 대비 개선점'
+thumbnail: './images/http/http2.png'
 comments: true
 ---
 

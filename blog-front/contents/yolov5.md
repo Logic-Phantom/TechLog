@@ -1,8 +1,8 @@
 ---
-date: '2025-05-15'
-title: 'YOLOv5를 활용한 객체 탐지'
-categories: ['AI', 'Computer Vision']
-summary: 'YOLOv5를 사용한 이미지 객체 탐지와 데이터 변환 과정'
+date: '2024-11-20'
+title: 'YOLOv5: 실시간 객체 탐지'
+categories: ['AI']
+summary: 'YOLOv5의 특징과 활용 방법, 그리고 성능 최적화'
 thumbnail: './images/AI/ai.png'
 comments: true
 ---

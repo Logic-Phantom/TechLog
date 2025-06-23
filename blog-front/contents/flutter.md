@@ -1,8 +1,8 @@
 ---
-date: '2025-05-26'
-title: 'Flutter'
-categories: ['Mobile', 'flutter']
-summary: '크로스 플랫폼 앱 개발 가이드'
+date: '2024-11-20'
+title: 'Flutter: 크로스 플랫폼 모바일 개발'
+categories: ['Mobile']
+summary: 'Flutter의 특징과 장점, 그리고 실제 개발 방법'
 thumbnail: './images/mob/flutter.png'
 comments: true
 ---

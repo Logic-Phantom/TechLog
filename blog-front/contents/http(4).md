@@ -1,14 +1,14 @@
 ---
-date: '2024-12-14'
-title: 'HTTP 메서드 완벽 가이드'
-categories: ['HTTP', 'Network', 'Web']
-summary: 'HTTP 메서드의 종류와 특징, 그리고 올바른 사용법'
-thumbnail: './images/http/http-https2.png'
+date: '2024-11-20'
+title: 'HTTPS와 SSL/TLS'
+categories: ['HTTP']
+summary: 'HTTPS의 보안 메커니즘과 SSL/TLS 프로토콜'
+thumbnail: './images/http/https.png'
 comments: true
 ---
 
 ## 들어가며
-HTTP 메서드는 웹 API 설계의 핵심 요소이다. 이번 글에서는 각 HTTP 메서드의 특징과 올바른 사용법에 대해 자세히 알아본다.
+HTTPS는 웹 보안의 핵심 요소이다. 이번 글에서는 HTTPS의 보안 메커니즘과 SSL/TLS 프로토콜에 대해 자세히 알아본다.
 
 ## URI 설계와 리소스
 

@@ -1,8 +1,8 @@
 ---
-date: '2025-06-23'
-title: 'Mobile Video 성능 최적화'
-categories: ['mobile','web']
-summary: '프로젝트 사례로 보는 실전 가이드'
+date: '2024-11-20'
+title: '모바일 비디오 최적화 가이드'
+categories: ['Mobile']
+summary: '모바일 환경에서의 비디오 성능 최적화 기법'
 thumbnail: './images/vercel/Mobile.png'
 comments: true
 ---
