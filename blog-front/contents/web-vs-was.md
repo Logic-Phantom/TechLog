@@ -1,8 +1,8 @@
 ---
 date: '2025-06-12'
-title: 'Web vs WebAssembly: 언제 무엇을 사용할까?'
+title: 'Web vs Was: 언제 무엇을 사용할까?'
 categories: ['Web']
-summary: '웹 기술과 WebAssembly의 비교 및 적절한 사용 시나리오'
+summary: 'Web과 WAS의 차이점과 용도'
 thumbnail: './images/web/webWas.png'
 comments: true
 ---
