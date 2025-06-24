@@ -3,7 +3,7 @@ date: '2025-06-24'
 title: 'Next.js + Vercel에서 ISR 업데이트 지연 문제 해결기'
 categories: ['Next.js', 'Vercel']
 summary: 'ISR의 캐싱 구조와 업데이트 반영 딜레이 문제, 그리고 Edge 함수와 캐싱 전략으로 개선한 과정'
-thumbnail: './images/vercel/Next.png'
+thumbnail: './images/vercel/Next2.png'
 comments: true
 ---
 

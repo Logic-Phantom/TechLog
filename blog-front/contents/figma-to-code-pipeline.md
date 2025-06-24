@@ -1,5 +1,5 @@
 ---
-date: '2024-11-20'
+date: '2025-06-21'
 title: 'Figma to Code 파이프라인 구축'
 categories: ['Developer Tool']
 summary: 'Figma 디자인을 코드로 자동 변환하는 파이프라인 구축 방법'

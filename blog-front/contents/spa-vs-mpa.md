@@ -1,5 +1,5 @@
 ---
-date: '2024-11-20'
+date: '2025-06-19'
 title: 'SPA vs MPA: 웹 애플리케이션 아키텍처 비교'
 categories: ['CI/CD']
 summary: 'SPA와 MPA의 차이점과 각각의 장단점 분석'

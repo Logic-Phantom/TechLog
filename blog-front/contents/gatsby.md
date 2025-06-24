@@ -1,5 +1,5 @@
 ---
-date: '2024-11-20'
+date: '2024-01-01'
 title: 'Gatsby.js: 정적 사이트 생성기'
 categories: ['React']
 summary: 'Gatsby.js의 특징과 장점, 그리고 활용 방법'

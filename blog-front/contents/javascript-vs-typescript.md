@@ -1,5 +1,5 @@
 ---
-date: '2024-11-20'
+date: '2025-06-17'
 title: 'JavaScript vs TypeScript: 언제 무엇을 사용할까?'
 categories: ['Web']
 summary: 'JavaScript와 TypeScript의 비교 및 적절한 사용 시나리오'
