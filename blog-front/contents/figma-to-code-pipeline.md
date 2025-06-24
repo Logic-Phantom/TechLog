@@ -1,7 +1,7 @@
 ---
 date: '2024-11-20'
 title: 'Figma to Code 파이프라인 구축'
-categories: ['개발도구']
+categories: ['Developer Tool']
 summary: 'Figma 디자인을 코드로 자동 변환하는 파이프라인 구축 방법'
 thumbnail: './images/css/Figma.png'
 comments: true

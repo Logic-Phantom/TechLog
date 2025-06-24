@@ -3,7 +3,7 @@ date: '2024-11-20'
 title: 'PWA 구현 가이드'
 categories: ['CI/CD']
 summary: 'Progressive Web App의 구현 방법과 최적화 기법'
-thumbnail: './images/pwa/pwa.png'
+thumbnail: './images/pwa/pwa2.png'
 comments: true
 ---
 

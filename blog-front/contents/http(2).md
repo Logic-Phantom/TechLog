@@ -3,7 +3,7 @@ date: '2024-11-20'
 title: 'HTTP/2 프로토콜의 특징과 개선점'
 categories: ['HTTP']
 summary: 'HTTP/2의 주요 특징과 HTTP/1.1 대비 개선점'
-thumbnail: './images/http/http2.png'
+thumbnail: './images/http/httpsUri.png'
 comments: true
 ---
 

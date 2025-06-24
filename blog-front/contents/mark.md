@@ -3,7 +3,7 @@ date: '2024-11-20'
 title: 'Markdown 완벽 가이드'
 categories: ['Web']
 summary: 'Markdown 문법과 활용 방법, 그리고 웹 개발에서의 활용'
-thumbnail: './images/markup/markdown.png'
+thumbnail: './images/markup/markdown2.png'
 comments: true
 ---
 

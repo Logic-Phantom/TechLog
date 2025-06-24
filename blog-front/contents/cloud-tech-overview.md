@@ -1,7 +1,7 @@
 ---
 date: '2024-11-20'
 title: '클라우드 기술 개요'
-categories: ['기타']
+categories: ['ETC']
 summary: '클라우드 컴퓨팅의 기본 개념과 주요 서비스'
 thumbnail: './images/web/cloud.png'
 comments: true

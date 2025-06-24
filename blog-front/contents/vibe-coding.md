@@ -1,9 +1,9 @@
 ---
 date: '2024-11-20'
 title: 'Vibe Coding: 개발 생산성 향상 도구'
-categories: ['개발도구']
+categories: ['Developer Tool']
 summary: 'Vibe Coding을 활용한 개발 워크플로우 최적화'
-thumbnail: './images/vibe/vibe-coding.png'
+thumbnail: './images/vibe/vibe-coding2.png'
 comments: true
 ---
 

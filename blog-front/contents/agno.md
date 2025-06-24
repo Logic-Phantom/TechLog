@@ -1,7 +1,7 @@
 ---
 date: '2024-11-20'
 title: 'Agno: 새로운 프로그래밍 언어'
-categories: ['기타']
+categories: ['ETC']
 summary: 'Agno 언어의 특징과 프로그래밍 패러다임'
 thumbnail: './images/web/Agno.png'
 comments: true

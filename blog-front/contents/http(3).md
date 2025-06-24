@@ -3,7 +3,7 @@ date: '2024-11-20'
 title: 'HTTP/3와 QUIC 프로토콜'
 categories: ['HTTP']
 summary: 'HTTP/3의 특징과 QUIC 프로토콜의 장점'
-thumbnail: './images/http/http3.png'
+thumbnail: './images/http/httpAl.png'
 comments: true
 ---
 

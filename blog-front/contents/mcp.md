@@ -1,7 +1,7 @@
 ---
 date: '2024-11-20'
 title: 'MCP: Model Context Protocol'
-categories: ['개발도구']
+categories: ['Developer Tool']
 summary: 'AI 모델과 도구 간의 표준화된 통신 프로토콜'
 thumbnail: './images/mcp/mcp.png'
 comments: true

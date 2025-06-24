@@ -3,7 +3,7 @@ date: '2024-11-20'
 title: 'Gatsby.js: 정적 사이트 생성기'
 categories: ['React']
 summary: 'Gatsby.js의 특징과 장점, 그리고 활용 방법'
-thumbnail: './images/gatsby/gatsby1.png'
+thumbnail: './images/gatsby/gatsby5.png'
 comments: true
 ---
 

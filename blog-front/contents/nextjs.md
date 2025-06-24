@@ -3,7 +3,7 @@ date: '2024-11-20'
 title: 'Next.js: React 기반 풀스택 프레임워크'
 categories: ['React']
 summary: 'Next.js의 특징과 SSR, SSG 기능 활용법'
-thumbnail: './images/next/next.png'
+thumbnail: './images/next/next2.png'
 comments: true
 ---
 > **Next.js**는 React 기반의 프레임워크로, 서버 사이드 렌더링(SSR)과 정적 사이트 생성(SSG)을 손쉽게 지원하며, 개발자 경험을 극대화해주는 도구입니다.

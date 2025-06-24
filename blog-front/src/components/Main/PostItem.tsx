@@ -98,14 +98,15 @@ const PostItem: FunctionComponent<PostItemProps> = function ({
   date,
   categories,
   summary,
-  thumbnail: {
-    childImageSharp: { gatsbyImageData },
-  },
+  thumbnail,
   link,
 }) {
+  // 썸네일 이미지 데이터 추출 (null-safe)
+  const gatsbyImageData = thumbnail && thumbnail.childImageSharp ? thumbnail.childImageSharp.gatsbyImageData : undefined;
+
   return (
     <PostItemWrapper to={link}>
-      <ThumbnailImage image={gatsbyImageData} alt="Post Item Image" />
+      {gatsbyImageData && <ThumbnailImage image={gatsbyImageData} alt="Post Item Image" />}
 
       <PostItemContent>
         <Title>{title}</Title>

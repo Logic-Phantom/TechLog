@@ -3,7 +3,7 @@ date: '2024-11-20'
 title: 'AI 코딩 어시스턴트 완벽 가이드'
 categories: ['AI']
 summary: 'AI 코딩 어시스턴트의 활용법과 최적화 전략'
-thumbnail: './images/AI/coding-assistant.png'
+thumbnail: './images/AI/AICODE.png'
 comments: true
 ---
 # AI 코드 어시스턴트 시대의 개발자: 도구인가, 파트너인가?

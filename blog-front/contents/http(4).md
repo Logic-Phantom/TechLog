@@ -3,7 +3,7 @@ date: '2024-11-20'
 title: 'HTTPS와 SSL/TLS'
 categories: ['HTTP']
 summary: 'HTTPS의 보안 메커니즘과 SSL/TLS 프로토콜'
-thumbnail: './images/http/http-https.png'
+thumbnail: './images/http/http-https2.png'
 comments: true
 ---
 

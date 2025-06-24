@@ -5,7 +5,7 @@ export type PostFrontmatterType = {
     date: string
     categories: string[]
     summary: string
-    thumbnail: {
+    thumbnail?: {
       childImageSharp: {
         gatsbyImageData: IGatsbyImageData
       }
