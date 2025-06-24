@@ -10,7 +10,7 @@ type GatsbyImgProps = {
 }
 
 type PostHeadProps = PostHeadInfoProps & {
-    thumbnail: IGatsbyImageData
+    thumbnail?: IGatsbyImageData
   }
 
 const PostHeadWrapper = styled.div`
@@ -45,7 +45,7 @@ const PostHead: FunctionComponent<PostHeadProps> = function ({
   }) {
     return (
       <PostHeadWrapper>
-        <BackgroundImage image={thumbnail} alt="thumbnail" />
+        {thumbnail && <BackgroundImage image={thumbnail} alt="thumbnail" />}
         <PostHeadInfo title={title} date={date} categories={categories} />
       </PostHeadWrapper>
     )

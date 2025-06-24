@@ -41,14 +41,15 @@ type PostTemplateProps = {
           summary,
           date,
           categories,
-          thumbnail: {
-            childImageSharp: { gatsbyImageData },
-            publicURL,
-          },
+          thumbnail,
         },
       },
     } = edges[0];
   
+    // 썸네일 이미지 데이터 추출 (null-safe)
+    const gatsbyImageData = thumbnail && thumbnail.childImageSharp ? thumbnail.childImageSharp.gatsbyImageData : undefined;
+    const publicURL = thumbnail && thumbnail.publicURL ? thumbnail.publicURL : undefined;
+
     return (
       <Template title={title} description={summary} url={href} image={publicURL}>
         <PostHead

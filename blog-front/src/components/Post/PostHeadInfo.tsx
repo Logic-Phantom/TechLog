@@ -1,7 +1,5 @@
 import React, { FunctionComponent } from 'react'
 import styled from '@emotion/styled'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 export type PostHeadInfoProps = {
   title: string
@@ -42,6 +40,16 @@ const PrevPageIcon = styled.div`
     font-size: 18px;
   }
 `
+
+const ArrowIcon = styled.span`
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-left: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+  transform: rotate(45deg);
+`
+
 const Title = styled.div`
   display: -webkit-box;
   overflow: hidden;
@@ -58,7 +66,8 @@ const Title = styled.div`
     font-size: 30px;
   }
 `
-  const PostData = styled.div`
+
+const PostData = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -73,6 +82,7 @@ const Title = styled.div`
     font-weight: 400;
   }
 `
+
 const PostHeadInfo: FunctionComponent<PostHeadInfoProps> = function ({
     title,
     date,
@@ -83,7 +93,7 @@ const PostHeadInfo: FunctionComponent<PostHeadInfoProps> = function ({
     return (
       <PostHeadInfoWrapper>
         <PrevPageIcon onClick={goBackPage}>
-          <FontAwesomeIcon icon={faArrowLeft} />
+          <ArrowIcon />
         </PrevPageIcon>
         <Title>{title}</Title>
         <PostData>
