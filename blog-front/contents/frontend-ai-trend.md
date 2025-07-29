@@ -3,9 +3,10 @@ date: '2025-07-29'
 title: '프론트엔드에서 AI를 활용하는 시대'
 categories: ['Web','UI']
 summary: '웹 개발자의 역할은 어떻게 변하고 있을까?'
-thumbnail: './images/AI/AI_UI.png'
+thumbnail: './images/web/AI_UI.png'
 comments: true
 ---
+
 # 프론트엔드에서 AI를 활용하는 시대, 우리는 어디까지 왔을까?
 
 > “웹 개발자도 이제 모델을 호출하고, 예측하며, 생성하는 시대가 왔다.”
