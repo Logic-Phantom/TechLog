@@ -5,6 +5,7 @@ import Footer from 'components/Common/Footer'
 import CategoryList, { CategoryListProps } from 'components/Main/CategoryList'
 import Introduction from 'components/Main/Introduction'
 import PostList, { PostType } from 'components/Main/PostList'
+import ScrollToTop from 'components/Common/ScrollToTop'
 import { graphql } from 'gatsby'
 import { PostListItemType } from 'types/PostItem.types'
 import { IGatsbyImageData } from 'gatsby-plugin-image'
@@ -108,6 +109,7 @@ const IndexPage: FunctionComponent<IndexPageProps> = function ({
         categoryList={categoryList}
       />
       <PostList selectedCategory={selectedCategory} posts={edges} />
+      <ScrollToTop />
     </Template>
   )
 }
