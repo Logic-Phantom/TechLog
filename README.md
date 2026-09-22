@@ -150,12 +150,12 @@ comments: true
 | 서버 | Spring / Spring Boot, JVM, VO·DTO, 모놀리스, 백엔드 API 비교, Supabase, Web vs WAS |
 | 인프라 | Jamstack, Vercel, 배포 아키텍처, 클라우드, PWA, WebView vs PWA |
 | AI | LLM 개요, Web LLM, 브라우저 Transformer, MCP, 에이전틱 웹, AI 코딩 도구, AI 거버넌스, 바이브 코딩, YOLOv5, agno |
-| 보안 | 웹 보안 정책, 웹 취약점 대응 |
+| 보안 | 웹 보안 정책, 웹 취약점 대응, 패스키·WebAuthn |
 | 데이터·협업 | 로컬 퍼스트 & CRDT |
 
 **아직 비어 있는 후보** (바로 골라 쓸 수 있는 목록)
 
-`WebRTC 실시간 미디어` · `Passkeys / WebAuthn 비밀번호 없는 인증` · `View Transitions API` · `CSS Container Queries & :has()` · `Web Components / Shadow DOM` · `Service Worker 캐싱 전략 심화` · `WebTransport & HTTP/3 스트리밍` · `프론트엔드 관측성(OpenTelemetry·RUM)` · `Signals 기반 반응성` · `아일랜드 아키텍처(Astro)` · `Origin Private File System` · `WebCodecs` · `국제화(i18n)와 Intl API` · `SQLite in the Browser (WASM)` · `Feature Flag & 점진 배포`
+`WebRTC 실시간 미디어` · `View Transitions API` · `CSS Container Queries & :has()` · `Web Components / Shadow DOM` · `Service Worker 캐싱 전략 심화` · `WebTransport & HTTP/3 스트리밍` · `프론트엔드 관측성(OpenTelemetry·RUM)` · `Signals 기반 반응성` · `아일랜드 아키텍처(Astro)` · `Origin Private File System` · `WebCodecs` · `국제화(i18n)와 Intl API` · `SQLite in the Browser (WASM)` · `Feature Flag & 점진 배포`
 
 > 새 글을 쓴 뒤에는 위 표에 주제를 한 줄 추가하고, 후보 목록에서 해당 항목을 제거합니다.
 
@@ -220,7 +220,31 @@ comments: true
 
 썸네일 구성: 연하늘 배경 + 구름/플러스 장식 → 가운데 흰 라운드 패널에 **영문 대문자 키워드**(네이비 굵게) → 하단 네이비 알약 배지에 부제 → 좌우에 기기·아이콘 → 맨 아래 한글 카피 한 줄.
 
-### 7. 이미지 생성 방법 (Node·Python 없는 환경)
+### 7. 이미지 생성 방법
+
+**macOS / Linux / CI (권장)**: Python + Pillow 로 그립니다. 팔레트·썸네일 레이아웃 헬퍼가 `scripts/draw_kit.py`에 있습니다.
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install pillow   # 최초 1회 (.venv는 커밋하지 않음)
+```
+
+```python
+import sys; sys.path.insert(0, 'scripts')
+from draw_kit import *
+
+img, d = thumbnail_base()                                  # 연하늘 배경 + 구름/플러스
+thumbnail_panel(d, ['PASS', 'KEYS'], 'WEBAUTHN', '비밀번호 없는 로그인')
+img.save('blog-front/contents/images/web/passkey.png')
+
+img, d = canvas(1280, 680, 'white')                        # 본문 다이어그램
+rrect(d, (40, 110, 310, 200), 18, fill='pale', outline='navy', width=5)
+text_c(d, 175, 155, '브라우저', 28, bold=True)
+arrow(d, (320, 155), (480, 155), color='blue', dashed=True)
+```
+
+한글 폰트는 macOS `AppleSDGothicNeo`, Ubuntu `fonts-noto-cjk`, Windows `Malgun Gothic` 순으로 자동 탐색합니다.
+
+**Windows (Node·Python 없는 환경)**: 아래처럼 PowerShell + System.Drawing 으로 그립니다.
 
 이 저장소의 작업 환경에는 `node`/`python`이 없습니다. **Windows PowerShell + System.Drawing**으로 PNG를 직접 그립니다.
 
