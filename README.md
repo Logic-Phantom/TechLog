@@ -86,6 +86,10 @@ TechLog/
 
 ### 자동화
 - GitHub Actions를 통한 자동 배포
+- **매일 한국시간 12:00 자동 게시글 발행** (`.github/workflows/daily-post.yml`)
+  - Claude Code가 아래 작성 가이드대로 새 주제 글·이미지를 생성 → 검증 → `main` 푸시 → `deploy.yml` 호출
+  - 프롬프트: `.github/prompts/daily-post.md` / 필요 시크릿: `CLAUDE_CODE_OAUTH_TOKEN` 또는 `ANTHROPIC_API_KEY`
+  - 그날 날짜의 글이 이미 있으면 건너뜀. Actions 탭에서 수동 실행 가능
 - 이미지 최적화 자동화
 - SEO 메타데이터 자동 생성
 
