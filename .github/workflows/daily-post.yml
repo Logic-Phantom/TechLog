@@ -42,43 +42,33 @@ jobs:
           echo "skip=true" >> "$GITHUB_OUTPUT"
         fi
 
-    - name: Set up Node.js
-      if: steps.guard.outputs.skip != 'true'
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-
-    - name: Install Gemini CLI, Pillow, Korean fonts
+    - name: Install Pillow and Korean fonts
       if: steps.guard.outputs.skip != 'true'
       run: |
-        npm install -g @google/gemini-cli
         sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk
         pip install --quiet pillow
 
+    # Gemini API는 딱 1회만 호출 (무료 등급 한도: 모델당 하루 약 20회). 저장·이미지·README 갱신은 스크립트가 처리
     - name: Write today's post with Gemini
       if: steps.guard.outputs.skip != 'true'
-      timeout-minutes: 30
+      timeout-minutes: 20
       env:
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}      # Google AI Studio 무료 API 키
-        GEMINI_CLI_TRUST_WORKSPACE: 'true'                # CI에서는 폴더 신뢰 확인 창을 띄울 수 없으므로 건너뜀 (없으면 exit 55)
-        GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'flash' }}  # 'flash' = CLI가 최신 Flash 모델로 해석. 변수로 교체 가능
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}   # Google AI Studio 무료 API 키
+        GEMINI_MODELS: ${{ vars.GEMINI_MODELS }}         # 비우면 scripts/auto_post.py 기본 목록 사용 (앞에서부터, 한도 초과 시 다음 모델)
         TODAY: ${{ steps.guard.outputs.today }}
       run: |
         [ -n "$GEMINI_API_KEY" ] || { echo "GEMINI_API_KEY 시크릿이 없습니다"; exit 1; }
-        PROMPT="$(sed "s/{{TODAY}}/$TODAY/g" .github/prompts/daily-post.md)"
+        [ -n "$GEMINI_MODELS" ] || unset GEMINI_MODELS
         set -o pipefail
-        # 진행 이벤트를 JSONL로 남겨 로그에서 어떤 도구를 호출했는지 추적. 25분 넘으면 중단
-        timeout 25m gemini -m "$GEMINI_MODEL" --approval-mode=yolo -o stream-json -p "$PROMPT" 2>&1 \
-          | tee /tmp/gemini.jsonl
+        python3 scripts/auto_post.py 2>&1 | tee /tmp/auto_post.log
 
-    # 실패 시 Gemini 로그 끝부분을 annotation으로 남김 (로그인 없이 API로 원인 확인 가능)
-    - name: Report Gemini log tail on failure
+    # 실패 시 로그 끝부분을 annotation으로 남김 (로그인 없이 API로 원인 확인 가능)
+    - name: Report log tail on failure
       if: failure()
       run: |
-        [ -f /tmp/gemini.jsonl ] || { echo "::error title=Gemini::로그 파일 없음"; exit 0; }
-        echo "events=$(wc -l < /tmp/gemini.jsonl)"
-        TAIL=$(tail -c 3500 /tmp/gemini.jsonl | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g' -e 's/\r/%0D/g')
-        echo "::error title=Gemini log tail::$TAIL"
+        [ -f /tmp/auto_post.log ] || exit 0
+        TAIL=$(tail -c 3000 /tmp/auto_post.log | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g' -e 's/\r/%0D/g')
+        echo "::error title=auto_post log tail::$TAIL"
 
     - name: Validate new post
       if: steps.guard.outputs.skip != 'true'

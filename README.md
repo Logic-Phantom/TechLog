@@ -87,9 +87,12 @@ TechLog/
 ### 자동화
 - GitHub Actions를 통한 자동 배포
 - **매일 한국시간 12:00 자동 게시글 발행** (`.github/workflows/daily-post.yml`)
-  - Gemini CLI(무료 API)가 아래 작성 가이드대로 새 주제 글·이미지를 생성 → 검증 → `main` 푸시 → `deploy.yml` 호출
-  - 프롬프트: `.github/prompts/daily-post.md` / 필요 시크릿: `GEMINI_API_KEY` (Google AI Studio 발급)
-  - 모델 변경: 저장소 Variables에 `GEMINI_MODEL` (기본값 `flash`)
+  - `scripts/auto_post.py`가 아래 작성 가이드 + 기존 글 목록을 Gemini 무료 API에 **1회** 보내 본문·이미지 명세(JSON)를 받음
+    → 썸네일·다이어그램 렌더링(`scripts/draw_kit.py`) → README 4절 갱신 → 검증 → `main` 푸시 → `deploy.yml` 호출
+  - 필요 시크릿: `GEMINI_API_KEY` (Google AI Studio 발급) / 모델 순서 변경: 저장소 Variables `GEMINI_MODELS` (쉼표 구분)
+  - 무료 등급은 모델당 하루 요청 수가 매우 적어(약 20회) 도구를 반복 호출하는 CLI 에이전트 방식은 쓰지 않음
+  - 로컬 테스트: `DRY_RUN_JSON=샘플.json python3 scripts/auto_post.py` (API 호출 없이 렌더링만)
+  - 즉시 실행: `.github/triggers/daily-post` 파일을 수정해 푸시하거나 Actions 탭 → Run workflow (force)
   - 그날 날짜의 글이 이미 있으면 건너뜀. Actions 탭에서 수동 실행 가능
 - 이미지 최적화 자동화
 - SEO 메타데이터 자동 생성
