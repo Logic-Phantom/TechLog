@@ -47,6 +47,7 @@
 | CI/CD | GitHub Actions |
 | PWA | Workbox, Service Workers |
 | 댓글 | Utterances |
+| 자동 발행 | Gemini API (무료 등급), Python + Pillow |
 
 ---
 
@@ -64,8 +65,15 @@ TechLog/
 │   ├── static/           # 정적 파일
 │   ├── gatsby-config.js  # Gatsby 설정
 │   └── gatsby-node.js    # Gatsby Node API
+├── scripts/
+│   ├── auto_post.py      # 매일 자동 게시글 생성 (Gemini API 호출 → 본문·이미지·README 반영)
+│   └── draw_kit.py       # 썸네일·다이어그램 렌더링 헬퍼 (Pillow, 공통 팔레트)
 └── .github/
-    └── workflows/        # GitHub Actions 워크플로우
+    ├── workflows/
+    │   ├── deploy.yml     # main 푸시 시 Gatsby 빌드 → Logic-Phantom.github.io 배포
+    │   └── daily-post.yml # 매일 12:00(KST) 자동 게시글 작성 → 푸시 → 배포 호출
+    └── triggers/
+        └── daily-post     # 이 파일을 수정해 푸시하면 자동 발행을 즉시 실행
 ```
 
 ---
@@ -85,15 +93,33 @@ TechLog/
 - 반응형 레이아웃
 
 ### 자동화
-- GitHub Actions를 통한 자동 배포
-- **매일 한국시간 12:00 자동 게시글 발행** (`.github/workflows/daily-post.yml`)
-  - `scripts/auto_post.py`가 아래 작성 가이드 + 기존 글 목록을 Gemini 무료 API에 **1회** 보내 본문·이미지 명세(JSON)를 받음
-    → 썸네일·다이어그램 렌더링(`scripts/draw_kit.py`) → README 4절 갱신 → 검증 → `main` 푸시 → `deploy.yml` 호출
-  - 필요 시크릿: `GEMINI_API_KEY` (Google AI Studio 발급) / 모델 순서 변경: 저장소 Variables `GEMINI_MODELS` (쉼표 구분)
-  - 무료 등급은 모델당 하루 요청 수가 매우 적어(약 20회) 도구를 반복 호출하는 CLI 에이전트 방식은 쓰지 않음
-  - 로컬 테스트: `DRY_RUN_JSON=샘플.json python3 scripts/auto_post.py` (API 호출 없이 렌더링만)
-  - 즉시 실행: `.github/triggers/daily-post` 파일을 수정해 푸시하거나 Actions 탭 → Run workflow (force)
-  - 그날 날짜의 글이 이미 있으면 건너뜀. Actions 탭에서 수동 실행 가능
+- GitHub Actions를 통한 자동 배포 (`deploy.yml`, `main` 푸시 또는 수동 호출)
+- **매일 한국시간 12:00 자동 게시글 발행** (`daily-post.yml`)
+
+```text
+cron 03:00 UTC (= 12:00 KST, GitHub 사정으로 수~수십 분 지연 가능)
+ → 오늘 날짜 글이 이미 있으면 건너뜀
+ → scripts/auto_post.py
+     ① 아래 "작성 가이드" + 기존 글 목록을 Gemini에 1회 전송 → 본문 + 이미지 명세(JSON) 수신
+     ② 본문이 15KB 미만이면 보강 요청 1회 추가
+     ③ 썸네일·다이어그램 렌더링(draw_kit.py) → 본문 자리표시자에 이미지 삽입
+     ④ 프론트매터 생성, README 4절 주제 표·후보 목록 갱신
+ → 검증: 새 .md 1개, 프론트매터 7개 필드, 썸네일·본문 이미지 존재, 분량
+ → main 푸시 → deploy.yml 호출 (GITHUB_TOKEN 푸시는 push 트리거가 안 걸리므로 직접 호출)
+```
+
+| 항목 | 내용 |
+|------|------|
+| 필요 시크릿 | `GEMINI_API_KEY` (Google AI Studio 발급) |
+| 모델 | 최신 Flash부터 순서대로 시도, 한도 초과·미지원이면 다음 모델. 변경은 Variables `GEMINI_MODELS` (쉼표 구분) |
+| 즉시 실행 | Actions 탭 → Daily Auto Post → Run workflow (`force` 체크) 또는 `.github/triggers/daily-post` 수정 후 푸시 |
+| 실패 확인 | 실행 결과 화면의 annotation에 로그 끝부분이 남음. 실패한 날은 푸시하지 않고 다음 날 재시도 |
+| 로컬 테스트 | `DRY_RUN_JSON=샘플.json python3 scripts/auto_post.py` (API 호출 없이 렌더링만) |
+| 중지 | Actions 탭 → Daily Auto Post → `...` → Disable workflow |
+
+> 💡 무료 등급은 모델당 하루 요청 수가 매우 적어(약 20회) 도구를 반복 호출하는 CLI 에이전트(Gemini CLI 등)는 한도를 초과합니다.
+> 그래서 요청 1~2회로 끝나도록 **생성은 Gemini, 저장·이미지·검증은 스크립트**로 역할을 나눴습니다.
+
 - 이미지 최적화 자동화
 - SEO 메타데이터 자동 생성
 
@@ -347,6 +373,9 @@ gatsby build
 
 ## 🔄 최근 업데이트
 
+- **매일 12:00(KST) 자동 게시글 발행** — Gemini 무료 API + GitHub Actions (2026.09)
+- 썸네일·다이어그램 생성 도구를 Python(Pillow)으로 이식, 글자 자동 맞춤·줄바꿈 지원 (2026.09)
+- README에 AI 에이전트용 게시글 작성 가이드 정리 (2026.09)
 - PWA 기능 추가 (2024.03)
 - 댓글 시스템 Utterances 적용
 - 다크모드 지원
