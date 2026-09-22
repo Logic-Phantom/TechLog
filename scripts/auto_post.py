@@ -22,7 +22,7 @@ import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'scripts'))
-from draw_kit import thumbnail_base, thumbnail_devices, thumbnail_panel, flow_diagram, compare_diagram  # noqa: E402
+from draw_kit import ICONS, LAYOUTS, THEMES, thumbnail, pick_style, flow_diagram, compare_diagram  # noqa: E402
 
 CONTENTS = os.path.join(ROOT, 'blog-front', 'contents')
 README = os.path.join(ROOT, 'README.md')
@@ -52,8 +52,9 @@ SCHEMA = {
         'used_candidate': {'type': 'STRING'},
         'thumbnail': {'type': 'OBJECT', 'properties': {
             'keyword_lines': {'type': 'ARRAY', 'items': {'type': 'STRING'}},
-            'badge': {'type': 'STRING'}, 'caption': {'type': 'STRING'}},
-            'required': ['keyword_lines', 'badge', 'caption']},
+            'badge': {'type': 'STRING'}, 'caption': {'type': 'STRING'},
+            'icon': {'type': 'STRING', 'enum': ICONS}},
+            'required': ['keyword_lines', 'badge', 'caption', 'icon']},
         'diagrams': {'type': 'ARRAY', 'items': {'type': 'OBJECT', 'properties': {
             'kind': {'type': 'STRING', 'enum': ['flow', 'compare']},
             'title': {'type': 'STRING'}, 'caption': {'type': 'STRING'}, 'alt': {'type': 'STRING'},
@@ -110,6 +111,9 @@ def build_prompt(today, readme):
 - image_folder: {FOLDERS} 중 하나.
 - readme_area: README 4절 표의 "분야" 값 중 하나(없으면 새 분야명), readme_topic: 표에 추가할 짧은 주제명.
 - thumbnail.keyword_lines: 영문 대문자 키워드 1~2줄(한 줄 10자 이내). badge: 영문 대문자 부제(16자 이내). caption: 한글 카피 한 줄(18자 이내).
+  icon: 주제를 가장 잘 나타내는 그림 1개 — devices(멀티 기기), browser(웹 페이지·브라우저 API), phone(모바일), code(언어·문법·라이브러리),
+  server(백엔드·워커), database(저장소·DB), cloud(클라우드·배포), shield(보안·인증), chip(AI·저수준 처리), network(P2P·통신·분산),
+  gear(설정·자동화·빌드), chat(메시징·실시간), bolt(성능·반응성), chart(관측성·지표), globe(국제화·네트워크 표준), layers(아키텍처·컴포넌트).
 - diagrams: 1~2개. kind="flow"면 steps 3~5개(label 12자 이내, sub 18자 이내, note는 선택·12자 이내).
   kind="compare"면 left(기존 방식)/right(새 방식) 각각 rows 3개(20자 이내)와 result(12자 이내). title은 30자 이내 한글+영문, caption은 45자 이내 한 문장.
 - body: 프론트매터 없이 `# (이모지) (제목)` 으로 시작하는 마크다운 본문. README 5절 구조(인용구, 목차, 10~14개 이모지 번호 섹션, 비교표, 언어 태그가 있는 코드 블록, 실무 함정, 쓰면 안 되는 경우, 정리 + 한 줄 요약, 참고 자료)를 지킨다.
@@ -223,11 +227,15 @@ def main():
     os.makedirs(img_dir, exist_ok=True)
 
     # 썸네일
+    # 썸네일 — 레이아웃·테마는 기존 글 수로 순환해 직전 글과 겹치지 않게, 아이콘은 Gemini 선택
     t = post['thumbnail']
-    img, d = thumbnail_base()
-    thumbnail_devices(d)
-    thumbnail_panel(d, [k.upper() for k in t['keyword_lines'][:2]] or ['TECH'], t['badge'].upper(), t['caption'])
-    img.save(os.path.join(img_dir, f'{slug}.png'))
+    layout, theme = pick_style(len(glob.glob(os.path.join(CONTENTS, '*.md'))))
+    layout = t.get('layout') if t.get('layout') in LAYOUTS else layout
+    theme = t.get('theme') if t.get('theme') in THEMES else theme
+    ic = t.get('icon') if t.get('icon') in ICONS else 'browser'
+    print(f'썸네일: layout={layout}, theme={theme}, icon={ic}')
+    thumbnail(os.path.join(img_dir, f'{slug}.png'), [k.upper() for k in t['keyword_lines'][:2]],
+              t['badge'].upper(), t['caption'], ic, layout, theme)
 
     # 다이어그램
     body = post['body'].strip()

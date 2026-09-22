@@ -240,19 +240,31 @@ comments: true
 
 | 용도 | 크기 | 배경 | 저장 위치 |
 |------|------|------|-----------|
-| 썸네일 | **1536 × 1024** (3:2) | 연하늘 `#D6E8FB` 플랫 일러스트 | `images/<주제>/<이름>.png` |
+| 썸네일 | **1536 × 1024** (3:2) | 테마별 파스텔/다크 플랫 일러스트 | `images/<주제>/<이름>.png` |
 | 본문 다이어그램 | **1280 × 600~700** | 흰색, 설명용 도식 | 동일 폴더 |
 
 주제 폴더: `web` · `AI` · `javascript` · `html` · `http` · `css` · `next` · `pwa` · `server` · `mcp` · `mob` · `vercel` · `vibe` · `gatsby` · `markup` · `error` · `spa-mpa` · `etc`
 
-**공통 팔레트** (기존 썸네일과 톤을 맞추기 위해 그대로 사용)
+**다이어그램 팔레트** (본문 도식은 이 톤으로 통일)
 
 ```text
 배경 #D6E8FB   네이비 #1E3A5F   블루 #5B8FD4   연블루 #A8C9EF
 페일 #C6DEF8   그린 #279866    레드 #CE4747   그레이 #788A9E   페이퍼 #F9FBFE
 ```
 
-썸네일 구성: 연하늘 배경 + 구름/플러스 장식 → 가운데 흰 라운드 패널에 **영문 대문자 키워드**(네이비 굵게) → 하단 네이비 알약 배지에 부제 → 좌우에 기기·아이콘 → 맨 아래 한글 카피 한 줄.
+**썸네일은 글마다 달라 보이도록** 레이아웃 × 테마 × 아이콘을 조합합니다. 텍스트 재료는 항상 같습니다: **영문 대문자 키워드 1~2줄** + **영문 배지(부제)** + **한글 카피 한 줄** + **주제 아이콘 1개**.
+
+| 레이아웃 | 구성 |
+|----------|------|
+| `classic` | 가운데 흰 패널에 키워드 + 좌우 아이콘과 점선 화살표 + 하단 카피 (기존 스타일) |
+| `split` | 왼쪽 큰 타이포(배지 → 키워드 → 강조선 → 카피) + 오른쪽 원형 일러스트 |
+| `editor` | 다크 코드 에디터 창 안에 `// 배지`, 키워드, `$ 카피` + 모서리 아이콘 |
+| `poster` | 대각선 띠 + 거대한 키워드 + 하단 캡션 바 |
+| `emblem` | 가운데 원형 엠블럼 아이콘 + 아래 키워드·배지·카피 |
+
+- 테마: `sky` · `night` · `mint` · `peach` · `lavender` · `ocean`
+- 아이콘: `devices` · `browser` · `phone` · `code` · `server` · `database` · `cloud` · `shield` · `chip` · `network` · `gear` · `chat` · `bolt` · `chart` · `globe` · `layers`
+- 자동 발행은 **기존 글 수로 레이아웃·테마를 순환**(5 × 6, 서로소라 30편 동안 조합이 반복되지 않음)시키고, 아이콘은 Gemini가 주제에 맞게 고릅니다.
 
 ### 7. 이미지 생성 방법
 
@@ -266,9 +278,9 @@ python3 -m venv .venv && .venv/bin/pip install pillow   # 최초 1회 (.venv는 
 import sys; sys.path.insert(0, 'scripts')
 from draw_kit import *
 
-img, d = thumbnail_base()                                  # 연하늘 배경 + 구름/플러스
-thumbnail_panel(d, ['PASS', 'KEYS'], 'WEBAUTHN', '비밀번호 없는 로그인')
-img.save('blog-front/contents/images/web/passkey.png')
+thumbnail('blog-front/contents/images/web/passkey.png',   # 썸네일 (레이아웃·테마·아이콘 지정)
+          ['PASS', 'KEYS'], 'WEBAUTHN', '비밀번호 없는 로그인', 'shield', 'split', 'mint')
+layout, theme = pick_style(42)                             # 또는 숫자로 순환 선택
 
 img, d = canvas(1280, 680, 'white')                        # 본문 다이어그램
 rrect(d, (40, 110, 310, 200), 18, fill='pale', outline='navy', width=5)
@@ -373,6 +385,7 @@ gatsby build
 
 ## 🔄 최근 업데이트
 
+- 썸네일 다양화: 레이아웃 5종 × 테마 6종 × 아이콘 16종 조합, 글마다 자동 순환 (2026.09)
 - **매일 12:00(KST) 자동 게시글 발행** — Gemini 무료 API + GitHub Actions (2026.09)
 - 썸네일·다이어그램 생성 도구를 Python(Pillow)으로 이식, 글자 자동 맞춤·줄바꿈 지원 (2026.09)
 - README에 AI 에이전트용 게시글 작성 가이드 정리 (2026.09)
