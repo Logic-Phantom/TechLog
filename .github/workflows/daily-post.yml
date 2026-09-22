@@ -9,6 +9,9 @@ on:
         description: '오늘 날짜 글이 있어도 강제로 새 글 작성'
         type: boolean
         default: false
+  push:                    # 이 파일을 수정해 푸시하면 즉시 강제 실행 (로그인 없이 git만으로 테스트)
+    branches: [main]
+    paths: ['.github/triggers/daily-post']
 
 permissions:
   contents: write   # 새 글 커밋·푸시
@@ -34,7 +37,7 @@ jobs:
       run: |
         TODAY=$(date +%F)
         echo "today=$TODAY" >> "$GITHUB_OUTPUT"
-        if [ "${{ inputs.force }}" != "true" ] && grep -lq "^date: '$TODAY'" blog-front/contents/*.md; then
+        if [ "${{ inputs.force }}" != "true" ] && [ "${{ github.event_name }}" != "push" ] && grep -lq "^date: '$TODAY'" blog-front/contents/*.md; then
           echo "오늘($TODAY) 날짜 글이 이미 있어 건너뜁니다."
           echo "skip=true" >> "$GITHUB_OUTPUT"
         fi
