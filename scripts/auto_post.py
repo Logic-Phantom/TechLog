@@ -118,14 +118,18 @@ def build_prompt(today, readme):
 """
 
 
-def call_gemini(prompt):
+def call_gemini(prompt, schema=None, prefer=None):
+    """(응답 텍스트, 사용한 모델) 반환. schema가 있으면 JSON 모드."""
     key = os.environ['GEMINI_API_KEY']
     models = [m.strip() for m in os.environ.get('GEMINI_MODELS', DEFAULT_MODELS).split(',') if m.strip()]
-    body = json.dumps({
-        'contents': [{'role': 'user', 'parts': [{'text': prompt}]}],
-        'generationConfig': {'responseMimeType': 'application/json', 'responseSchema': SCHEMA,
-                             'temperature': 0.9, 'maxOutputTokens': 32768},
-    }).encode()
+    if prefer in models:
+        models.remove(prefer)
+        models.insert(0, prefer)
+    config = {'temperature': 0.9, 'maxOutputTokens': 32768}
+    if schema:
+        config.update(responseMimeType='application/json', responseSchema=schema)
+    body = json.dumps({'contents': [{'role': 'user', 'parts': [{'text': prompt}]}],
+                       'generationConfig': config}).encode()
     for model in models:
         url = f'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent'
         for attempt in range(2):
@@ -151,8 +155,24 @@ def call_gemini(prompt):
                 print(f'[{model}] 빈 응답 (finishReason={cand.get("finishReason")})')
                 break
             print(f'[{model}] 응답 {len(text)}자, usage={data.get("usageMetadata")}')
-            return json.loads(text)
+            return text, model
     sys.exit('모든 모델 호출 실패')
+
+
+def expand_body(body, title, model):
+    """본문이 README 기준(15KB)보다 짧으면 한 번 더 요청해 보강. 실패하면 원본 유지."""
+    prompt = f"""아래는 기술 블로그 글 '{title}'의 마크다운 초안이다. 분량이 부족하다.
+구조(제목, 인용구, 목차, 섹션 번호·이모지, `{{{{DIAGRAM_n}}}}` 자리표시자)는 그대로 유지하면서
+각 섹션에 실무 예제 코드(언어 태그 포함), 비교표, 함정 사례, 구체적 수치·설정 예시를 보강해 한국어 기준 18~22KB로 확장하라.
+사실이 불확실한 API는 추가하지 말 것. 설명 없이 **확장된 마크다운 본문만** 출력한다.
+
+{body}"""
+    try:
+        text, _ = call_gemini(prompt, prefer=model)
+    except SystemExit:
+        return body
+    text = re.sub(r'\A```(?:markdown|md)?\n|\n```\s*\Z', '', text.strip())
+    return text if len(text.encode()) > len(body.encode()) and text.lstrip().startswith('#') else body
 
 
 def update_readme(readme, area, topic, candidate):
@@ -183,7 +203,12 @@ def main():
     if os.environ.get('DRY_RUN_JSON'):
         post = json.loads(read(os.environ['DRY_RUN_JSON']))
     else:
-        post = call_gemini(build_prompt(today, readme))
+        text, model = call_gemini(build_prompt(today, readme), schema=SCHEMA)
+        post = json.loads(text)
+        print('spec:', json.dumps({k: v for k, v in post.items() if k != 'body'}, ensure_ascii=False))
+        if len(post['body'].encode()) < 15000:
+            print(f'본문 {len(post["body"].encode())} bytes → 보강 요청')
+            post['body'] = expand_body(post['body'], post['title'], model)
 
     slug = re.sub(r'[^a-z0-9-]', '-', post['slug'].lower()).strip('-')
     slug = re.sub(r'-{2,}', '-', slug)

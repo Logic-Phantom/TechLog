@@ -20,7 +20,7 @@ comments: true
 4. 🌐 MPA(Multi-Page Application) 간 Cross-Document View Transitions
 5. 🎨 `view-transition-name`을 활용한 요소 단위 전환 (Hero Animation)
 6. 📊 기존 애니메이션 솔루션과의 비교
-7. 🛠️ 프레임워크(React / Next.js) 통합 및 커스텀 CSS 커스스터마이징
+7. 🛠️ 프레임워크(React / Next.js) 통합 및 커스텀 CSS 커스터마이징
 8. ⚠️ 실무 함정 1: 레이아웃 스태킹 및 z-index context 꼬임 현상
 9. ⚠️ 실무 함정 2: 비동기 데이터 패칭 및 DOM 업데이트 타이밍 미스
 10. 🚫 사용을 피해야 하는 상황과 성능 안티 패턴

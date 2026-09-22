@@ -119,6 +119,37 @@ def fit_size(d, s, max_w, size, bold=False, min_size=14, spacing=0):
     return size
 
 
+def wrap_text(d, cx, cy, s, max_w, size, color='navy', bold=False, min_size=15, max_lines=2, line_gap=1.3):
+    """max_w 안에 들어가도록 줄바꿈(최대 max_lines줄) + 축소, 그래도 넘치면 말줄임."""
+    def split(sz):
+        f = font(sz, bold)
+        lines, cur = [], ''
+        for word in s.split(' '):
+            t = (cur + ' ' + word).strip()
+            if d.textlength(t, font=f) <= max_w or not cur:
+                cur = t
+            else:
+                lines.append(cur)
+                cur = word
+        lines.append(cur)
+        return lines, f
+    sz = size
+    while True:
+        lines, f = split(sz)
+        if (len(lines) <= max_lines and all(d.textlength(l, font=f) <= max_w for l in lines)) or sz <= min_size:
+            break
+        sz -= 1
+    lines = lines[:max_lines]
+    for k, l in enumerate(lines):
+        while d.textlength(l, font=f) > max_w and len(l) > 1:
+            l = l[:-2] + '…'
+        lines[k] = l
+    h = sz * line_gap
+    y0 = cy - h * (len(lines) - 1) / 2
+    for k, l in enumerate(lines):
+        d.text((cx, y0 + k * h), l, font=f, fill=C.get(color, color), anchor='mm')
+
+
 def thumbnail_panel(d, lines, badge, caption):
     """가운데 흰 패널 + 영문 대문자 키워드 + 네이비 알약 배지 + 하단 한글 카피."""
     rrect(d, (528, 300, 1008, 732), 48, fill='white', outline='navy', width=12)
@@ -168,14 +199,14 @@ def flow_diagram(path, title, steps, caption):
         hl = (i == 1)
         rrect(d, (x, 200, x + bw, 360), 18, fill='pale' if hl else 'paper', outline='navy', width=5)
         lab = st.get('label', '')
-        text_c(d, x + bw / 2, 262, lab, fit_size(d, lab, bw - 30, 28, True), bold=True)
         sub = st.get('sub') or ''
+        wrap_text(d, x + bw / 2, 250 if sub else 280, lab, bw - 28, 28, bold=True, min_size=18)
         if sub:
-            text_c(d, x + bw / 2, 306, sub, fit_size(d, sub, bw - 30, 19), color='gray')
+            wrap_text(d, x + bw / 2, 312, sub, bw - 28, 19, color='gray', min_size=15)
         note = st.get('note') or ''
         if note:
             rrect(d, (x + 10, 430, x + bw - 10, 490), 14, fill='white', outline='green', width=4)
-            text_c(d, x + bw / 2, 460, note, fit_size(d, note, bw - 40, 20, True), color='green', bold=True)
+            wrap_text(d, x + bw / 2, 460, note, bw - 40, 20, color='green', bold=True, min_size=14, max_lines=1)
             arrow(d, (x + bw / 2, 428), (x + bw / 2, 366), color='green', width=4, head=12)
         if i < n - 1:
             arrow(d, (x + bw + 8, 280), (x + bw + gap - 8, 280), width=6, head=14)
@@ -190,16 +221,16 @@ def compare_diagram(path, title, left, right, caption):
     for x, side, color in [(60, left, 'red'), (680, right, 'green')]:
         rrect(d, (x, 110, x + 540, 540), 22, fill='paper', outline=color, width=5)
         t = side.get('title', '')
-        text_c(d, x + 270, 150, t, fit_size(d, t, 480, 32, True), color=color, bold=True)
+        wrap_text(d, x + 270, 150, t, 480, 32, color=color, bold=True, min_size=18, max_lines=1)
         rows = (side.get('rows') or [])[:3]
         for i, r in enumerate(rows):
             y = 196 + i * 88
             rrect(d, (x + 60, y, x + 480, y + 60), 14, fill='white', outline='navy', width=4)
-            text_c(d, x + 270, y + 30, r, fit_size(d, r, 390, 23), color='navy')
+            wrap_text(d, x + 270, y + 30, r, 390, 23, min_size=15, line_gap=1.15)
             if i < len(rows) - 1:
                 arrow(d, (x + 270, y + 62), (x + 270, y + 86), width=4, head=12)
         res = side.get('result', '')
         rrect(d, (x + 110, 470, x + 430, 520), 25, fill=color)
-        text_c(d, x + 270, 495, res, fit_size(d, res, 290, 24, True), color='white', bold=True)
+        wrap_text(d, x + 270, 495, res, 290, 24, color='white', bold=True, min_size=15, max_lines=1)
     text_c(d, 640, 592, caption, fit_size(d, caption, 1180, 24), color='navy')
     img.save(path)
