@@ -59,6 +59,7 @@ jobs:
       if: steps.guard.outputs.skip != 'true'
       env:
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}      # Google AI Studio 무료 API 키
+        GEMINI_CLI_TRUST_WORKSPACE: 'true'                # CI에서는 폴더 신뢰 확인 창을 띄울 수 없으므로 건너뜀 (없으면 exit 55)
         GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'flash' }}  # 'flash' = CLI가 최신 Flash 모델로 해석. 변수로 교체 가능
         TODAY: ${{ steps.guard.outputs.today }}
       run: |
