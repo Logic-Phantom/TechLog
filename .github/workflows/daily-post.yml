@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '0 3 * * *'   # 매일 03:00 UTC = 한국시간 오후 12:00 (GitHub 스케줄은 수~수십 분 지연될 수 있음)
   workflow_dispatch:       # Actions 탭에서 수동 실행(테스트용)
+    inputs:
+      force:
+        description: '오늘 날짜 글이 있어도 강제로 새 글 작성'
+        type: boolean
+        default: false
 
 permissions:
   contents: write   # 새 글 커밋·푸시
@@ -29,7 +34,7 @@ jobs:
       run: |
         TODAY=$(date +%F)
         echo "today=$TODAY" >> "$GITHUB_OUTPUT"
-        if grep -lq "^date: '$TODAY'" blog-front/contents/*.md; then
+        if [ "${{ inputs.force }}" != "true" ] && grep -lq "^date: '$TODAY'" blog-front/contents/*.md; then
           echo "오늘($TODAY) 날짜 글이 이미 있어 건너뜁니다."
           echo "skip=true" >> "$GITHUB_OUTPUT"
         fi
