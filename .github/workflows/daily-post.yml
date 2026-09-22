@@ -57,6 +57,7 @@ jobs:
 
     - name: Write today's post with Gemini
       if: steps.guard.outputs.skip != 'true'
+      timeout-minutes: 30
       env:
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}      # Google AI Studio 무료 API 키
         GEMINI_CLI_TRUST_WORKSPACE: 'true'                # CI에서는 폴더 신뢰 확인 창을 띄울 수 없으므로 건너뜀 (없으면 exit 55)
@@ -65,7 +66,19 @@ jobs:
       run: |
         [ -n "$GEMINI_API_KEY" ] || { echo "GEMINI_API_KEY 시크릿이 없습니다"; exit 1; }
         PROMPT="$(sed "s/{{TODAY}}/$TODAY/g" .github/prompts/daily-post.md)"
-        gemini -m "$GEMINI_MODEL" --approval-mode=yolo -p "$PROMPT"
+        set -o pipefail
+        # 진행 이벤트를 JSONL로 남겨 로그에서 어떤 도구를 호출했는지 추적. 25분 넘으면 중단
+        timeout 25m gemini -m "$GEMINI_MODEL" --approval-mode=yolo -o stream-json -p "$PROMPT" 2>&1 \
+          | tee /tmp/gemini.jsonl
+
+    # 실패 시 Gemini 로그 끝부분을 annotation으로 남김 (로그인 없이 API로 원인 확인 가능)
+    - name: Report Gemini log tail on failure
+      if: failure()
+      run: |
+        [ -f /tmp/gemini.jsonl ] || { echo "::error title=Gemini::로그 파일 없음"; exit 0; }
+        echo "events=$(wc -l < /tmp/gemini.jsonl)"
+        TAIL=$(tail -c 3500 /tmp/gemini.jsonl | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g' -e 's/\r/%0D/g')
+        echo "::error title=Gemini log tail::$TAIL"
 
     - name: Validate new post
       if: steps.guard.outputs.skip != 'true'
