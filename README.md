@@ -178,7 +178,7 @@ comments: true
 |------|-----------|
 | JavaScript | ES5/ES6 핵심, 비동기·클로저, 에러 처리, 내장/외부 유틸 라이브러리, JS vs TS, window 객체 |
 | 프레임워크 | React 구조, Next.js, Gatsby, Svelte, htmx, Flutter, 마이크로 프론트엔드, SPA vs MPA, Virtual DOM |
-| 브라우저·표준 | HTML 렌더링 과정, 웹 표준, 웹 접근성, Web Worker, WebAssembly, WebGPU, 자동재생 정책, 3D 인터랙티브 웹, View Transitions API |
+| 브라우저·표준 | HTML 렌더링 과정, 웹 표준, 웹 접근성, Web Worker, WebAssembly, WebGPU, 자동재생 정책, 3D 인터랙티브 웹, View Transitions API, CSS Container Queries & :has() |
 | 네트워크 | HTTP/1~3, 상태 코드, WebSocket·STOMP, FCM 푸시 |
 | 성능 | Web Vitals, 모바일 비디오 최적화, ISR·엣지 캐싱, 캐시 vs 세션 |
 | 서버 | Spring / Spring Boot, JVM, VO·DTO, 모놀리스, 백엔드 API 비교, Supabase, Web vs WAS |
@@ -190,7 +190,7 @@ comments: true
 
 **아직 비어 있는 후보** (바로 골라 쓸 수 있는 목록)
 
-`WebRTC 실시간 미디어` · `CSS Container Queries & :has()` · `Web Components / Shadow DOM` · `Service Worker 캐싱 전략 심화` · `WebTransport & HTTP/3 스트리밍` · `프론트엔드 관측성(OpenTelemetry·RUM)` · `Signals 기반 반응성` · `아일랜드 아키텍처(Astro)` · `WebCodecs` · `국제화(i18n)와 Intl API` · `SQLite in the Browser (WASM)` · `Feature Flag & 점진 배포`
+`WebRTC 실시간 미디어` · `Web Components / Shadow DOM` · `Service Worker 캐싱 전략 심화` · `WebTransport & HTTP/3 스트리밍` · `프론트엔드 관측성(OpenTelemetry·RUM)` · `Signals 기반 반응성` · `아일랜드 아키텍처(Astro)` · `WebCodecs` · `국제화(i18n)와 Intl API` · `SQLite in the Browser (WASM)` · `Feature Flag & 점진 배포`
 
 > 새 글을 쓴 뒤에는 위 표에 주제를 한 줄 추가하고, 후보 목록에서 해당 항목을 제거합니다.
 
