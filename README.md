@@ -182,7 +182,7 @@ comments: true
 | 네트워크 | HTTP/1~3, 상태 코드, WebSocket·STOMP, FCM 푸시, WebTransport & HTTP/3 스트리밍, WebRTC 실시간 미디어 |
 | 성능 | Web Vitals, 모바일 비디오 최적화, ISR·엣지 캐싱, 캐시 vs 세션 |
 | 서버 | Spring / Spring Boot, JVM, VO·DTO, 모놀리스, 백엔드 API 비교, Supabase, Web vs WAS |
-| 인프라 | Jamstack, Vercel, 배포 아키텍처, 클라우드, PWA, WebView vs PWA |
+| 인프라 | Jamstack, Vercel, 배포 아키텍처, 클라우드, PWA, WebView vs PWA, Feature Flag & 점진 배포 |
 | AI | LLM 개요, Web LLM, 브라우저 Transformer, MCP, 에이전틱 웹, AI 코딩 도구, AI 거버넌스, 바이브 코딩, YOLOv5, agno |
 | 보안 | 웹 보안 정책, 웹 취약점 대응, 패스키·WebAuthn |
 | 데이터·협업 | 로컬 퍼스트 & CRDT |
@@ -190,7 +190,7 @@ comments: true
 
 **아직 비어 있는 후보** (바로 골라 쓸 수 있는 목록)
 
-`Web Components / Shadow DOM` · `Service Worker 캐싱 전략 심화` · `프론트엔드 관측성(OpenTelemetry·RUM)` · `아일랜드 아키텍처(Astro)` · `WebCodecs` · `국제화(i18n)와 Intl API` · `Feature Flag & 점진 배포`
+`Web Components / Shadow DOM` · `Service Worker 캐싱 전략 심화` · `프론트엔드 관측성(OpenTelemetry·RUM)` · `아일랜드 아키텍처(Astro)` · `WebCodecs` · `국제화(i18n)와 Intl API`
 
 > 새 글을 쓴 뒤에는 위 표에 주제를 한 줄 추가하고, 후보 목록에서 해당 항목을 제거합니다.
 
