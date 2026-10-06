@@ -178,7 +178,7 @@ comments: true
 |------|-----------|
 | JavaScript | ES5/ES6 핵심, 비동기·클로저, 에러 처리, 내장/외부 유틸 라이브러리, JS vs TS, window 객체 |
 | 프레임워크 | React 구조, Next.js, Gatsby, Svelte, htmx, Flutter, 마이크로 프론트엔드, SPA vs MPA, Virtual DOM, Signals 기반 반응성 |
-| 브라우저·표준 | HTML 렌더링 과정, 웹 표준, 웹 접근성, Web Worker, WebAssembly, WebGPU, 자동재생 정책, 3D 인터랙티브 웹, View Transitions API, CSS Container Queries & :has() |
+| 브라우저·표준 | HTML 렌더링 과정, 웹 표준, 웹 접근성, Web Worker, WebAssembly, WebGPU, 자동재생 정책, 3D 인터랙티브 웹, View Transitions API, CSS Container Queries & :has(), Web Components / Shadow DOM |
 | 네트워크 | HTTP/1~3, 상태 코드, WebSocket·STOMP, FCM 푸시, WebTransport & HTTP/3 스트리밍, WebRTC 실시간 미디어 |
 | 성능 | Web Vitals, 모바일 비디오 최적화, ISR·엣지 캐싱, 캐시 vs 세션, Service Worker 캐싱 전략 심화, 프론트엔드 관측성(RUM & OpenTelemetry) |
 | 서버 | Spring / Spring Boot, JVM, VO·DTO, 모놀리스, 백엔드 API 비교, Supabase, Web vs WAS |
