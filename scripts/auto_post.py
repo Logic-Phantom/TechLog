@@ -6,12 +6,14 @@ Gemini CLI 같은 에이전트는 도구 호출마다 API 요청을 쓰므로 �
 
 환경 변수
   GEMINI_API_KEY  필수
-  GEMINI_MODELS   쉼표 구분 모델 목록. 앞에서부터 시도하고 404/429면 다음 모델로 넘어간다.
+  GEMINI_MODELS   쉼표 구분 모델 목록. 앞에서부터 시도하고 실패하면 다음 모델로 넘어간다.
+  GEMINI_BUDGET_SEC  재시도를 포함한 전체 시간 상한 (기본 2100초)
   TODAY           YYYY-MM-DD (기본: 오늘)
   DRY_RUN_JSON    지정 시 API 대신 이 JSON 파일을 사용 (로컬 테스트용)
 """
 import datetime
 import glob
+import http.client
 import json
 import os
 import re
@@ -122,8 +124,19 @@ def build_prompt(today, readme):
 """
 
 
-def call_gemini(prompt, schema=None, prefer=None):
-    """(응답 텍스트, 사용한 모델) 반환. schema가 있으면 JSON 모드."""
+STARTED = time.monotonic()
+BUDGET = int(os.environ.get('GEMINI_BUDGET_SEC', 35 * 60))  # 전체 재시도 시간 상한 (워크플로우 단계 타임아웃보다 짧게)
+ROUND_WAITS = [0, 120, 300]  # 모델 목록 전체가 실패하면 이만큼 쉬고 처음부터 다시 (503 "high demand"는 수 분 뒤 풀리는 경우가 많음)
+
+
+def call_gemini(prompt, schema=None, prefer=None, parse=None, rounds=len(ROUND_WAITS)):
+    """(응답 텍스트 또는 parse 결과, 사용한 모델) 반환. schema가 있으면 JSON 모드.
+
+    - 5xx·연결 끊김·타임아웃: 같은 모델로 1회 더, 그래도 실패하면 다음 모델
+    - 404(모델 없음)·429(한도)·기타 4xx: 그 모델은 이번 실행에서 제외
+    - 응답이 잘렸거나(finishReason != STOP) parse가 실패하면 다음 모델
+    - 목록을 다 돌아도 실패하면 ROUND_WAITS만큼 쉬고 다시 (BUDGET 내에서)
+    """
     key = os.environ['GEMINI_API_KEY']
     models = [m.strip() for m in os.environ.get('GEMINI_MODELS', DEFAULT_MODELS).split(',') if m.strip()]
     if prefer in models:
@@ -134,33 +147,73 @@ def call_gemini(prompt, schema=None, prefer=None):
         config.update(responseMimeType='application/json', responseSchema=schema)
     body = json.dumps({'contents': [{'role': 'user', 'parts': [{'text': prompt}]}],
                        'generationConfig': config}).encode()
-    for model in models:
-        url = f'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent'
-        for attempt in range(2):
-            req = urllib.request.Request(url, data=body, method='POST', headers={
-                'Content-Type': 'application/json', 'x-goog-api-key': key})
-            try:
-                with urllib.request.urlopen(req, timeout=600) as r:
-                    data = json.load(r)
-            except urllib.error.HTTPError as e:
-                msg = e.read().decode(errors='replace')[:300]
-                print(f'[{model}] HTTP {e.code}: {msg}')
-                if e.code >= 500 and attempt == 0:
-                    time.sleep(20)
-                    continue
-                break  # 404(모델 없음)·429(한도)·4xx → 다음 모델
-            except (urllib.error.URLError, TimeoutError) as e:
-                print(f'[{model}] 네트워크 오류: {e}')
+    dead = set()
+    for rnd, wait in enumerate(ROUND_WAITS[:rounds]):
+        alive = [m for m in models if m not in dead]
+        if not alive:
+            break
+        if wait:
+            if time.monotonic() - STARTED + wait > BUDGET:
                 break
-            cand = (data.get('candidates') or [{}])[0]
-            parts = cand.get('content', {}).get('parts', [])
-            text = ''.join(p.get('text', '') for p in parts if not p.get('thought'))
-            if not text:
-                print(f'[{model}] 빈 응답 (finishReason={cand.get("finishReason")})')
-                break
-            print(f'[{model}] 응답 {len(text)}자, usage={data.get("usageMetadata")}')
-            return text, model
+            print(f'--- 모든 모델 실패, {wait}초 대기 후 재시도 ({rnd + 1}/{rounds}) ---', flush=True)
+            time.sleep(wait)
+        for model in alive:
+            url = f'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent'
+            for attempt in range(2):
+                if time.monotonic() - STARTED > BUDGET:
+                    sys.exit(f'시간 상한({BUDGET}초) 초과로 중단')
+                req = urllib.request.Request(url, data=body, method='POST', headers={
+                    'Content-Type': 'application/json', 'x-goog-api-key': key})
+                try:
+                    with urllib.request.urlopen(req, timeout=600) as r:
+                        data = json.load(r)
+                except urllib.error.HTTPError as e:
+                    msg = e.read().decode(errors='replace')[:300]
+                    print(f'[{model}] HTTP {e.code}: {msg}', flush=True)
+                    if e.code >= 500:
+                        if attempt == 0:
+                            time.sleep(30)
+                            continue
+                        break  # 다음 모델, 다음 라운드에 다시 시도
+                    dead.add(model)  # 404(모델 없음)·429(한도)·4xx → 이번 실행에서 제외
+                    break
+                except (OSError, http.client.HTTPException, ValueError) as e:
+                    # URLError·RemoteDisconnected·ConnectionReset·TimeoutError·응답 JSON 깨짐
+                    print(f'[{model}] 네트워크 오류: {type(e).__name__}: {e}', flush=True)
+                    if attempt == 0:
+                        time.sleep(30)
+                        continue
+                    break
+                cand = (data.get('candidates') or [{}])[0]
+                parts = cand.get('content', {}).get('parts', [])
+                text = ''.join(p.get('text', '') for p in parts if not p.get('thought'))
+                finish = cand.get('finishReason')
+                print(f'[{model}] 응답 {len(text)}자, finishReason={finish}, usage={data.get("usageMetadata")}',
+                      flush=True)
+                if not text or finish not in (None, 'STOP'):
+                    break  # 빈 응답·MAX_TOKENS(잘림)·SAFETY 등 → 다음 모델
+                if parse is None:
+                    return text, model
+                try:
+                    return parse(text), model
+                except (ValueError, KeyError, TypeError) as e:
+                    print(f'[{model}] 응답 형식 오류: {type(e).__name__}: {e}', flush=True)
+                    break
     sys.exit('모든 모델 호출 실패')
+
+
+def parse_post(text):
+    """JSON 응답을 파싱하고 필수 필드를 확인. 잘린 JSON이나 빈 필드는 예외로 다음 모델에 넘긴다."""
+    post = json.loads(text)
+    missing = [k for k in SCHEMA['required'] if k not in post or (k != 'diagrams' and not post[k])]
+    if missing:
+        raise ValueError(f'필수 필드 누락: {missing}')
+    t = post['thumbnail']
+    if not (t.get('keyword_lines') and t.get('badge') and t.get('caption')):
+        raise ValueError('thumbnail 필드 누락')
+    if not post['body'].lstrip().startswith('#') or len(post['body'].encode()) < 5000:
+        raise ValueError(f'본문 이상 ({len(post["body"].encode())} bytes)')
+    return post
 
 
 def expand_body(body, title, model):
@@ -172,7 +225,7 @@ def expand_body(body, title, model):
 
 {body}"""
     try:
-        text, _ = call_gemini(prompt, prefer=model)
+        text, _ = call_gemini(prompt, prefer=model, rounds=1)
     except SystemExit:
         return body
     text = re.sub(r'\A```(?:markdown|md)?\n|\n```\s*\Z', '', text.strip())
@@ -207,8 +260,7 @@ def main():
     if os.environ.get('DRY_RUN_JSON'):
         post = json.loads(read(os.environ['DRY_RUN_JSON']))
     else:
-        text, model = call_gemini(build_prompt(today, readme), schema=SCHEMA)
-        post = json.loads(text)
+        post, model = call_gemini(build_prompt(today, readme), schema=SCHEMA, parse=parse_post)
         print('spec:', json.dumps({k: v for k, v in post.items() if k != 'body'}, ensure_ascii=False))
         if len(post['body'].encode()) < 15000:
             print(f'본문 {len(post["body"].encode())} bytes → 보강 요청')

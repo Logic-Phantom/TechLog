@@ -97,15 +97,16 @@ TechLog/
 - **매일 한국시간 12:00 자동 게시글 발행** (`daily-post.yml`)
 
 ```text
-cron 03:00 UTC (= 12:00 KST, GitHub 사정으로 수~수십 분 지연 가능)
- → 오늘 날짜 글이 이미 있으면 건너뜀
+cron 03:17 / 07:17 / 11:17 UTC (= 12:17 / 16:17 / 20:17 KST, GitHub 사정으로 수 시간 지연 가능)
+ → 오늘 날짜 글이 이미 있으면 건너뜀 (그래서 뒤 두 번은 앞 실행이 실패한 날만 동작하는 재시도)
  → scripts/auto_post.py
      ① 아래 "작성 가이드" + 기존 글 목록을 Gemini에 1회 전송 → 본문 + 이미지 명세(JSON) 수신
+        503·연결 끊김·잘린 JSON이면 다음 모델로, 전 모델 실패 시 2분·5분 쉬고 최대 3라운드 재시도
      ② 본문이 15KB 미만이면 보강 요청 1회 추가
      ③ 썸네일·다이어그램 렌더링(draw_kit.py) → 본문 자리표시자에 이미지 삽입
      ④ 프론트매터 생성, README 4절 주제 표·후보 목록 갱신
  → 검증: 새 .md 1개, 프론트매터 7개 필드, 썸네일·본문 이미지 존재, 분량
- → main 푸시 → deploy.yml 호출 (GITHUB_TOKEN 푸시는 push 트리거가 안 걸리므로 직접 호출)
+ → main에 rebase 후 푸시 → deploy.yml 호출 (GITHUB_TOKEN 푸시는 push 트리거가 안 걸리므로 직접 호출)
 ```
 
 | 항목 | 내용 |
@@ -113,7 +114,7 @@ cron 03:00 UTC (= 12:00 KST, GitHub 사정으로 수~수십 분 지연 가능)
 | 필요 시크릿 | `GEMINI_API_KEY` (Google AI Studio 발급) |
 | 모델 | 최신 Flash부터 순서대로 시도, 한도 초과·미지원이면 다음 모델. 변경은 Variables `GEMINI_MODELS` (쉼표 구분) |
 | 즉시 실행 | Actions 탭 → Daily Auto Post → Run workflow (`force` 체크) 또는 `.github/triggers/daily-post` 수정 후 푸시 |
-| 실패 확인 | 실행 결과 화면의 annotation에 로그 끝부분이 남음. 실패한 날은 푸시하지 않고 다음 날 재시도 |
+| 실패 확인 | 실행 결과 화면의 annotation에 로그 끝부분이 남음. 실패하면 푸시하지 않고 같은 날 다음 cron에서 재시도 |
 | 로컬 테스트 | `DRY_RUN_JSON=샘플.json python3 scripts/auto_post.py` (API 호출 없이 렌더링만) |
 | 중지 | Actions 탭 → Daily Auto Post → `...` → Disable workflow |
 
@@ -386,6 +387,7 @@ gatsby build
 
 ## 🔄 최근 업데이트
 
+- 자동 발행 안정화: Gemini 503·연결 끊김·잘린 응답 재시도, 하루 3회 스케줄로 실패 시 당일 재시도 (2026.10)
 - 썸네일 다양화: 레이아웃 5종 × 테마 6종 × 아이콘 16종 조합, 글마다 자동 순환 (2026.09)
 - **매일 12:00(KST) 자동 게시글 발행** — Gemini 무료 API + GitHub Actions (2026.09)
 - 썸네일·다이어그램 생성 도구를 Python(Pillow)으로 이식, 글자 자동 맞춤·줄바꿈 지원 (2026.09)
