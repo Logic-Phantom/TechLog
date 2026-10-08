@@ -114,6 +114,7 @@ cron 03:17 / 07:17 / 11:17 UTC (= 12:17 / 16:17 / 20:17 KST, GitHub 사정으로
 | 필요 시크릿 | `GEMINI_API_KEY` (Google AI Studio 발급) |
 | 모델 | 최신 Flash부터 순서대로 시도, 한도 초과·미지원이면 다음 모델. 변경은 Variables `GEMINI_MODELS` (쉼표 구분) |
 | 즉시 실행 | Actions 탭 → Daily Auto Post → Run workflow (`force` 체크) 또는 `.github/triggers/daily-post` 수정 후 푸시 |
+| 놓친 날 채우기 | Run workflow의 `date`에 `YYYY-MM-DD` 입력, 또는 트리거 파일에 `date=YYYY-MM-DD` 한 줄을 넣고 푸시 (그 날짜 글이 이미 있으면 건너뜀) |
 | 실패 확인 | 실행 결과 화면의 annotation에 로그 끝부분이 남음. 실패하면 푸시하지 않고 같은 날 다음 cron에서 재시도 |
 | 로컬 테스트 | `DRY_RUN_JSON=샘플.json python3 scripts/auto_post.py` (API 호출 없이 렌더링만) |
 | 중지 | Actions 탭 → Daily Auto Post → `...` → Disable workflow |
