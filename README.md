@@ -182,7 +182,7 @@ comments: true
 | 프레임워크 | React 구조, Next.js, Gatsby, Svelte, htmx, Flutter, 마이크로 프론트엔드, SPA vs MPA, Virtual DOM, Signals 기반 반응성, 아일랜드 아키텍처 & Astro |
 | 브라우저·표준 | HTML 렌더링 과정, 웹 표준, 웹 접근성, Web Worker, WebAssembly, WebGPU, 자동재생 정책, 3D 인터랙티브 웹, View Transitions API, CSS Container Queries & :has(), Web Components / Shadow DOM, WebCodecs 영상/음성 저수준 제어, CSS Anchor Positioning |
 | 네트워크 | HTTP/1~3, 상태 코드, WebSocket·STOMP, FCM 푸시, WebTransport & HTTP/3 스트리밍, WebRTC 실시간 미디어 |
-| 성능 | Web Vitals, 모바일 비디오 최적화, ISR·엣지 캐싱, 캐시 vs 세션, Service Worker 캐싱 전략 심화, 프론트엔드 관측성(RUM & OpenTelemetry) |
+| 성능 | Web Vitals, 모바일 비디오 최적화, ISR·엣지 캐싱, 캐시 vs 세션, Service Worker 캐싱 전략 심화, 프론트엔드 관측성(RUM & OpenTelemetry), Speculation Rules API와 브라우저 사전 렌더링 |
 | 서버 | Spring / Spring Boot, JVM, VO·DTO, 모놀리스, 백엔드 API 비교, Supabase, Web vs WAS |
 | 인프라 | Jamstack, Vercel, 배포 아키텍처, 클라우드, PWA, WebView vs PWA, Feature Flag & 점진 배포 |
 | AI | LLM 개요, Web LLM, 브라우저 Transformer, MCP, 에이전틱 웹, AI 코딩 도구, AI 거버넌스, 바이브 코딩, YOLOv5, agno |
