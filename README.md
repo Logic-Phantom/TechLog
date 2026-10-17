@@ -198,7 +198,8 @@ Gemini를 추가로 호출하지 않고, 새 글을 저장한 직후 스크립�
    - Secrets: `GOATCOUNTER_API_TOKEN`
 5. **Google Search Console**: [search.google.com/search-console](https://search.google.com/search-console) → URL 접두어 `https://logic-phantom.github.io/` 추가 → 소유권 확인 (HTML 파일 방식이면 받은 파일을 `blog-front/static/`에 넣어 배포, 또는 GA4 연결 방식)
 6. Search Console → Sitemaps → `sitemap-index.xml` 제출
-7. 배포 후 확인: GA4 실시간 보고서, GoatCounter 대시보드, 게시글 상세의 `👁 조회수`, Actions 로그의 `[stats] 저장: ...` 줄, `/stats/` 페이지
+7. 변수·시크릿을 등록해도 배포는 자동으로 다시 돌지 않습니다. **Actions → Build and Deploy to io Repo → Run workflow** 로 수동 실행하거나 다음 정기 배포(매일 09:00 KST)를 기다립니다
+8. 배포 후 확인: GA4 실시간 보고서, GoatCounter 대시보드, 게시글 상세의 `👁 조회수`, Actions 로그의 `[stats] 저장: ...` 줄, `/stats/` 페이지
 
 ### 생성되는 공개 파일
 
@@ -219,6 +220,8 @@ Gemini를 추가로 호출하지 않고, 새 글을 저장한 직후 스크립�
 | 조회수·인기 글이 안 보임 | ① Actions 로그 `Fetch view stats` 단계의 `[stats]` 메시지 ② 변수·시크릿 이름 ③ GoatCounter에 아직 데이터가 없으면 정상(숨김) ④ 상세 페이지 카운터는 GoatCounter 설정의 visitor counts 허용 여부, 응답은 최대 4시간 캐시 |
 | `[stats] 인증 실패 HTTP 401/403` | 토큰 값 오타·만료, 통계 읽기 권한 누락. 배포는 통계 없이 계속됨 |
 | `[stats] ... 미설정` | `GOATCOUNTER_API_TOKEN` 또는 `GATSBY_GOATCOUNTER_ENDPOINT` 미등록 (의도한 상태면 무시) |
+| `[stats] 통계 수집 실패: /stats/total HTTP 404` | GoatCounter 사이트를 만든 직후 방문 기록이 하나도 없으면 API가 404를 돌려줌. 사이트에 한 번 방문해 기록이 생긴 뒤 다시 배포 |
+| 배포는 성공했는데 사이트가 예전 화면 | `gatsby-plugin-offline` 서비스 워커 캐시. 시크릿 창으로 확인하거나 개발자 도구 → Application → Storage → **Clear site data**. 기존 방문자는 탭을 모두 닫은 뒤 다음 방문부터 새 버전이 보임 |
 | GA4에 데이터가 없음 | 측정 ID 형식(`G-`), 빌드 로그의 `[analytics] ... 끕니다` 경고, 광고 차단기, 실시간 보고서는 수 분·일반 보고서는 24~48시간 지연 |
 | GA4 페이지뷰가 2배 | 위 1번의 "브라우저 기록 이벤트 기반 페이지 변경" 해제 여부 |
 | 검색에 안 나옴 | Search Console 소유권·사이트맵 제출 여부, URL 검사로 색인 요청. 신규 사이트는 수일~수주 소요 |
