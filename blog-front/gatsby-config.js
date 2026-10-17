@@ -7,7 +7,87 @@ module.exports = {
     siteUrl: 'https://logic-phantom.github.io', // 배포 후 변경 예정
   },
   plugins: [
-    'gatsby-plugin-sitemap',
+    {
+      // /sitemap-index.xml → /sitemap-0.xml. 게시일은 수정일이 아니므로 lastmod 는 넣지 않는다
+      resolve: 'gatsby-plugin-sitemap',
+      options: {
+        excludes: ['/info/'], // 내용 없는 내부 테스트 페이지
+      },
+    },
+    {
+      // /rss.xml + <link rel="alternate" type="application/rss+xml"> 자동 삽입
+      resolve: 'gatsby-plugin-feed',
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                title
+                description
+                siteUrl
+                site_url: siteUrl
+              }
+            }
+          }
+        `,
+        feeds: [
+          {
+            serialize: ({ query: { site, allMarkdownRemark } }) => {
+              const siteUrl = site.siteMetadata.siteUrl.replace(/\/$/, '');
+              return allMarkdownRemark.nodes.map(node => {
+                const url = `${siteUrl}${encodeURI(node.fields.slug)}`;
+                const thumb = node.frontmatter.thumbnail;
+                return {
+                  title: node.frontmatter.title,
+                  description: node.frontmatter.summary,
+                  date: node.frontmatter.date,
+                  url,
+                  guid: url,
+                  categories: node.frontmatter.categories || [],
+                  enclosure:
+                    thumb && thumb.publicURL
+                      ? {
+                          url: `${siteUrl}${encodeURI(thumb.publicURL)}`,
+                          size: thumb.size,
+                          type: thumb.internal && thumb.internal.mediaType,
+                        }
+                      : undefined,
+                };
+              });
+            },
+            query: `
+              {
+                allMarkdownRemark(
+                  sort: [{frontmatter: {date: DESC}}, {frontmatter: {title: ASC}}]
+                  limit: 50
+                ) {
+                  nodes {
+                    fields {
+                      slug
+                    }
+                    frontmatter {
+                      title
+                      summary
+                      date
+                      categories
+                      thumbnail {
+                        publicURL
+                        size
+                        internal {
+                          mediaType
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `,
+            output: '/rss.xml',
+            title: 'Forest_LIM Tech Blog RSS',
+          },
+        ],
+      },
+    },
     'gatsby-plugin-styled-components',
     {
       resolve: 'gatsby-plugin-canonical-urls',

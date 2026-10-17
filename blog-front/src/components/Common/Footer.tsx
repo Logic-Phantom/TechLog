@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import styled from '@emotion/styled'
+import { Link } from 'gatsby'
 
 const FooterWrapper = styled.footer`
   position: relative;
@@ -42,6 +43,24 @@ const Copyright = styled.p`
   }
 `
 
+const FooterLinks = styled.nav`
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #426950;
+
+  a:hover,
+  a:focus-visible {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
+`
+
 const Emoji = styled.span`
   display: inline-block;
   transition: transform 0.3s ease;
@@ -58,6 +77,12 @@ const Footer: FunctionComponent = function () {
         <Message>
           Thank You for Visiting My Blog, Have a Good Day <Emoji>🌿</Emoji>
         </Message>
+        <FooterLinks aria-label="블로그 바로가기">
+          <Link to="/stats/">📊 블로그 통계</Link>
+          <a href="/rss.xml" type="application/rss+xml">
+            📡 RSS 구독
+          </a>
+        </FooterLinks>
         <Copyright>© 2024 Developer LIM.</Copyright>
       </FooterContent>
     </FooterWrapper>

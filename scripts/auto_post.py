@@ -10,6 +10,7 @@ Gemini CLI 같은 에이전트는 도구 호출마다 API 요청을 쓰므로 �
   GEMINI_BUDGET_SEC  재시도를 포함한 전체 시간 상한 (기본 2100초)
   TODAY           YYYY-MM-DD (기본: 오늘)
   DRY_RUN_JSON    지정 시 API 대신 이 JSON 파일을 사용 (로컬 테스트용)
+  LINK_CHECK      0 이면 저장 후 검증에서 외부 링크 접속 확인을 생략 (기본 1, 실패해도 경고만)
 """
 import datetime
 import glob
@@ -25,6 +26,7 @@ import urllib.request
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'scripts'))
 from draw_kit import ICONS, LAYOUTS, THEMES, thumbnail, pick_style, flow_diagram, compare_diagram  # noqa: E402
+from validate_post import validate, report  # noqa: E402
 
 CONTENTS = os.path.join(ROOT, 'blog-front', 'contents')
 README = os.path.join(ROOT, 'README.md')
@@ -315,7 +317,16 @@ def main():
 
     front = (f"---\ndate: '{today}'\ntitle: '{emoji} {title}'\ncategories: [{', '.join(repr(c) for c in cats)}]\n"
              f"summary: '{summary}'\nthumbnail: './images/{folder}/{slug}.png'\ncomments: true\n---\n")
-    write(os.path.join(CONTENTS, slug + '.md'), front + body + '\n')
+    md_path = os.path.join(CONTENTS, slug + '.md')
+    write(md_path, front + body + '\n')
+
+    # 품질·SEO 검증 (Gemini 추가 호출 없음). 오류면 README 갱신 전에 실패 → 워크플로우는 푸시하지 않고 다음 cron 에 재시도
+    errors, warns = validate(md_path, strict=True, network=os.environ.get('LINK_CHECK', '1') != '0')
+    report(md_path, errors, warns)
+    if errors:
+        sys.exit(f'검증 실패: 오류 {len(errors)}건 (경고 {len(warns)}건)')
+    print(f'검증 통과: 경고 {len(warns)}건')
+
     write(README, update_readme(readme, post['readme_area'].strip(), post['readme_topic'].strip(),
                                 (post.get('used_candidate') or '').strip()))
     print(f'작성 완료: blog-front/contents/{slug}.md ({len((front + body).encode())} bytes)')

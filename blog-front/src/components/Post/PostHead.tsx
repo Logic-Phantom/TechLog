@@ -42,11 +42,19 @@ const PostHead: FunctionComponent<PostHeadProps> = function ({
     date,
     categories,
     thumbnail,
+    path,
+    views,
   }) {
     return (
       <PostHeadWrapper>
         {thumbnail && <BackgroundImage image={thumbnail} alt="thumbnail" />}
-        <PostHeadInfo title={title} date={date} categories={categories} />
+        <PostHeadInfo
+          title={title}
+          date={date}
+          categories={categories}
+          path={path}
+          views={views}
+        />
       </PostHeadWrapper>
     )
   }

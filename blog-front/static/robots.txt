@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://logic-phantom.github.io/sitemap-index.xml

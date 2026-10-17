@@ -1,10 +1,13 @@
 import React, { FunctionComponent } from 'react'
 import styled from '@emotion/styled'
+import ViewCounter from 'components/Post/ViewCounter'
 
 export type PostHeadInfoProps = {
   title: string
   date: string
   categories: string[]
+  path?: string
+  views?: number
 }
 
 const PostHeadInfoWrapper = styled.div`
@@ -87,6 +90,8 @@ const PostHeadInfo: FunctionComponent<PostHeadInfoProps> = function ({
     title,
     date,
     categories,
+    path,
+    views,
   }) {
     const goBackPage = () => window.history.back();
   
@@ -98,7 +103,10 @@ const PostHeadInfo: FunctionComponent<PostHeadInfoProps> = function ({
         <Title>{title}</Title>
         <PostData>
           <div>{categories.join(' / ')}</div>
-          <div>{date}</div>
+          <div>
+            {date}
+            {path && <ViewCounter path={path} fallbackViews={views} />}
+          </div>
         </PostData>
       </PostHeadInfoWrapper>
     )

@@ -5,7 +5,11 @@ import { PostFrontmatterType } from 'types/PostItem.types'
 import { GatsbyImage } from 'gatsby-plugin-image'
 //import { PostFrontmatterType } from 'types/PostItem.types'
 
-type PostItemProps = PostFrontmatterType & { link: string }
+type PostItemProps = PostFrontmatterType & {
+  link: string
+  views?: number // 배포 시점 통계 API 집계값. 없으면 표시하지 않음
+  onClick?: () => void
+}
 
 // type PostItemProps = {
 //   title: string
@@ -63,6 +67,11 @@ const Date = styled.div`
   opacity: 0.7;
 `
 
+const Views = styled.span`
+  margin-left: 8px;
+  font-variant-numeric: tabular-nums;
+`
+
 const Category = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -100,17 +109,29 @@ const PostItem: FunctionComponent<PostItemProps> = function ({
   summary,
   thumbnail,
   link,
+  views,
+  onClick,
 }) {
   // 썸네일 이미지 데이터 추출 (null-safe)
   const gatsbyImageData = thumbnail && thumbnail.childImageSharp ? thumbnail.childImageSharp.gatsbyImageData : undefined;
 
   return (
-    <PostItemWrapper to={link}>
-      {gatsbyImageData && <ThumbnailImage image={gatsbyImageData} alt="Post Item Image" />}
+    <PostItemWrapper to={link} onClick={onClick}>
+      {gatsbyImageData && <ThumbnailImage image={gatsbyImageData} alt={title} />}
 
       <PostItemContent>
         <Title>{title}</Title>
-        <Date>{date}</Date>
+        <Date>
+          {date}
+          {typeof views === 'number' && (
+            <Views
+              aria-label={`조회수 ${views.toLocaleString('ko-KR')}회`}
+              title="마지막 배포 시점 집계"
+            >
+              · 👁 {views.toLocaleString('ko-KR')}
+            </Views>
+          )}
+        </Date>
         <Category>
           {categories.map(item => (
             <CategoryItem key={item}>{item}</CategoryItem>

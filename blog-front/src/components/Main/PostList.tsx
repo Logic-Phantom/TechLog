@@ -23,6 +23,7 @@ const POST_ITEM_DATA = {
 type PostListProps = {
   selectedCategory: string
   posts: PostListItemType[]
+  viewsBySlug?: Record<string, number>
 }
 
 export type PostType = {
@@ -83,6 +84,7 @@ const PostListWrapper = styled.div`
 const PostList: FunctionComponent<PostListProps> = function ({
   selectedCategory,
   posts,
+  viewsBySlug = {},
 }) {
   const { containerRef, postList }: useInfiniteScrollType = useInfiniteScroll(
     selectedCategory,
@@ -99,7 +101,12 @@ const PostList: FunctionComponent<PostListProps> = function ({
             frontmatter,
           },
         }: PostListItemType) => (
-          <PostItem {...frontmatter} link={slug} key={id} />
+          <PostItem
+            {...frontmatter}
+            link={slug}
+            views={viewsBySlug[slug]}
+            key={id}
+          />
         ),
       )}
     </PostListWrapper>

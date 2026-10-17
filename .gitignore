@@ -1,3 +1,5 @@
 __pycache__/
 *.pyc
 .venv/
+# 배포 빌드 때 scripts/fetch_stats.py 가 생성 (커밋하지 않음)
+blog-front/static/data/popular-posts.json

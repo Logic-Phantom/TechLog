@@ -29,7 +29,22 @@ jobs:
         npm install  # 의존성 설치
         npm install -g gatsby-cli  # gatsby-cli 글로벌 설치
 
+    # 공개 조회수 JSON 생성 (선택). 토큰은 이 단계에서만 쓰고 결과 파일에는 경로·숫자만 남음.
+    # 시크릿이 없거나 API가 실패해도 배포는 계속된다 (통계 영역만 숨겨짐). 생성 파일은 커밋하지 않음
+    - name: Fetch view stats from GoatCounter (optional)
+      continue-on-error: true
+      timeout-minutes: 5
+      env:
+        GOATCOUNTER_API_TOKEN: ${{ secrets.GOATCOUNTER_API_TOKEN }}
+        GATSBY_GOATCOUNTER_ENDPOINT: ${{ vars.GATSBY_GOATCOUNTER_ENDPOINT || secrets.GATSBY_GOATCOUNTER_ENDPOINT }}
+        GOATCOUNTER_STATS_START: ${{ vars.GOATCOUNTER_STATS_START }}
+      run: python3 scripts/fetch_stats.py
+
     - name: Build the project
+      env:
+        # 공개 측정용 값(비밀 아님). 비어 있으면 GA4·GoatCounter 스크립트를 넣지 않고 빌드
+        GATSBY_GA_MEASUREMENT_ID: ${{ vars.GATSBY_GA_MEASUREMENT_ID || secrets.GATSBY_GA_MEASUREMENT_ID }}
+        GATSBY_GOATCOUNTER_ENDPOINT: ${{ vars.GATSBY_GOATCOUNTER_ENDPOINT || secrets.GATSBY_GOATCOUNTER_ENDPOINT }}
       run: |
         cd blog-front  # blog-front 디렉토리로 이동
         gatsby build  # Gatsby 빌드

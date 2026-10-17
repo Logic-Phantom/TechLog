@@ -34,6 +34,14 @@
 - 깔끔한 타이포그래피
 - 부드러운 페이지 전환
 
+### 5. 검색 노출·분석·성장 (설정 방법은 아래 [📈 검색·분석·통계 운영](#-검색분석통계-운영))
+- Google Search Console 대응: `sitemap-index.xml`, `robots.txt`, 게시글별 title·description·canonical·Open Graph·Twitter 카드, `BlogPosting` 구조화 데이터
+- GA4 방문자 분석 (측정 ID가 있을 때만 로드, SPA 이동 포함 페이지뷰 1회씩)
+- GoatCounter 공개 조회수: 게시글 상세 `👁 조회수`, 목록 카드·인기 글 TOP 5·`/stats/` 통계 페이지 (실제 집계값만 표시)
+- 게시글 공유(Web Share API)·링크 복사, 관련 글 자동 추천(`함께 읽으면 좋은 글`)
+- RSS 피드 `/rss.xml` (최신 50편, 자동 발견 `<link rel="alternate">` 포함)
+- 자동 발행 글 품질·SEO 검증 (`scripts/validate_post.py`)
+
 ---
 
 ## 🛠 기술 스택
@@ -59,14 +67,19 @@ TechLog/
 │   ├── contents/           # 블로그 포스트 (Markdown)
 │   │   └── images/        # 포스트별 썸네일·다이어그램 (주제 폴더로 분류)
 │   ├── src/
-│   │   ├── components/    # 리액트 컴포넌트
-│   │   ├── pages/        # 페이지 컴포넌트
-│   │   └── templates/    # 포스트 템플릿
-│   ├── static/           # 정적 파일
-│   ├── gatsby-config.js  # Gatsby 설정
-│   └── gatsby-node.js    # Gatsby Node API
+│   │   ├── components/    # 리액트 컴포넌트 (Post/ViewCounter·PostShare·RelatedPosts, Main/PopularPosts 등)
+│   │   ├── pages/        # 페이지 컴포넌트 (index, stats = /stats/ 통계 페이지)
+│   │   ├── templates/    # 포스트 템플릿
+│   │   └── utils/        # analytics.ts (GA4·GoatCounter), stats.ts (조회수 매핑·정렬)
+│   ├── static/           # 정적 파일 (robots.txt, 빌드 때 생성되는 data/popular-posts.json)
+│   ├── gatsby-config.js  # Gatsby 설정 (sitemap·RSS·canonical·PWA)
+│   ├── gatsby-node.js    # Gatsby Node API (slug, 관련 글 계산, 통계 노드)
+│   ├── gatsby-ssr.js     # lang="ko", 분석 스크립트 삽입 (운영 빌드 + 환경 변수 있을 때만)
+│   └── gatsby-browser.js # 페이지 이동마다 페이지뷰 전송
 ├── scripts/
-│   ├── auto_post.py      # 매일 자동 게시글 생성 (Gemini API 호출 → 본문·이미지·README 반영)
+│   ├── auto_post.py      # 매일 자동 게시글 생성 (Gemini API 호출 → 본문·이미지·검증·README 반영)
+│   ├── validate_post.py  # 게시글 품질·SEO 검증 (auto_post.py가 호출, 단독 실행 가능)
+│   ├── fetch_stats.py    # GoatCounter 통계 API → 공개 조회수 JSON (deploy.yml이 빌드 전에 실행)
 │   └── draw_kit.py       # 썸네일·다이어그램 렌더링 헬퍼 (Pillow, 공통 팔레트)
 └── .github/
     ├── workflows/
@@ -104,7 +117,8 @@ cron 03:17 / 07:17 / 11:17 UTC (= 12:17 / 16:17 / 20:17 KST, GitHub 사정으로
         503·연결 끊김·잘린 JSON이면 다음 모델로, 전 모델 실패 시 2분·5분 쉬고 최대 3라운드 재시도
      ② 본문이 15KB 미만이면 보강 요청 1회 추가
      ③ 썸네일·다이어그램 렌더링(draw_kit.py) → 본문 자리표시자에 이미지 삽입
-     ④ 프론트매터 생성, README 4절 주제 표·후보 목록 갱신
+     ④ 프론트매터 생성 → scripts/validate_post.py 품질·SEO 검증 (오류면 여기서 실패, 아래 표 참고)
+     ⑤ README 4절 주제 표·후보 목록 갱신
  → 검증: 새 .md 1개, 프론트매터 7개 필드, 썸네일·본문 이미지 존재, 분량
  → main에 rebase 후 푸시 → deploy.yml 호출 (GITHUB_TOKEN 푸시는 push 트리거가 안 걸리므로 직접 호출)
 ```
@@ -124,6 +138,94 @@ cron 03:17 / 07:17 / 11:17 UTC (= 12:17 / 16:17 / 20:17 KST, GitHub 사정으로
 
 - 이미지 최적화 자동화
 - SEO 메타데이터 자동 생성
+
+#### 자동 검증 항목 (`scripts/validate_post.py`)
+
+Gemini를 추가로 호출하지 않고, 새 글을 저장한 직후 스크립트가 검사합니다. **오류**가 하나라도 있으면 README를 고치기 전에 실패하고, 워크플로우는 푸시하지 않은 채 같은 날 다음 cron에서 다시 시도합니다.
+
+| 구분 | 항목 |
+|------|------|
+| 오류 (실패) | 프론트매터 블록·7개 필드 누락, `date` 형식(`'YYYY-MM-DD'`), `categories` 형식, 파일명 kebab-case, 본문 첫 `#` 제목 = `title`, 썸네일·본문 이미지 파일 없음, 없는 내부 게시글 링크(`/slug/`, `https://logic-phantom.github.io/...`), 깨진 URL 형식, 닫히지 않은 코드 블록, 기존 글과 **같은 제목**, UTF-8 BOM |
+| 경고 (통과) | 외부 링크 접속 실패(일시 오류·봇 차단일 수 있어 HEAD→GET 재시도 후 경고만), `summary` 길이(10~25자)·제목과 동일, 제목 70자 초과, 기존 글과 제목 유사(80%↑)·본문 어휘 중복(50%↑), 언어 태그 없는 코드 블록, 용어 표기 혼용(`JavaScript`/`Javascript`), 이미지 alt 누락, 참고 자료에 외부 링크 없음 |
+
+- 단독 실행: `python3 scripts/validate_post.py blog-front/contents/<슬러그>.md` (오류면 종료 코드 1)
+- 기존 글 전체 보고: `python3 scripts/validate_post.py --all --no-network` (항상 종료 코드 0, 기존 글은 수정하지 않음)
+- 외부 링크 확인 생략: `LINK_CHECK=0`
+- ⚠️ 분량·형식 검사가 **기술적 정확성**(설명과 코드의 의미 일치, API·버전 사실 관계)을 보장하지는 않습니다. 용어 표기 혼용 같은 휴리스틱 경고만 있으니 발행 후 사람이 확인해야 합니다.
+
+---
+
+## 📈 검색·분석·통계 운영
+
+### 구성 요약
+
+```text
+[브라우저]  gatsby-ssr.js 가 넣은 gtag.js / GoatCounter count.js
+              └ gatsby-browser.js onRouteUpdate → 페이지 이동마다 page_view 1회 (GA4·GoatCounter)
+            게시글 상세 👁 조회수 ← GoatCounter 공개 카운터 /counter/<경로>.json (토큰 불필요)
+
+[배포 빌드] deploy.yml
+              ① scripts/fetch_stats.py  (GOATCOUNTER_API_TOKEN 사용, 서버 측에서만)
+                   GoatCounter API /stats/total, /stats/hits → blog-front/static/data/popular-posts.json
+                   (경로·숫자만 저장, 실제 게시글이 아닌 경로는 제외, 커밋하지 않음)
+              ② gatsby build → 인기 글 TOP 5 · 카드 조회수 · /stats/ 페이지에 반영
+```
+
+- 모든 외부 연동은 **선택**입니다. 값이 없으면 해당 스크립트·UI만 빠지고 블로그는 그대로 빌드·동작합니다.
+- 조회수가 없을 때 0·임의 숫자·최신 글을 대신 보여 주지 않습니다 (인기 글 섹션 자체를 숨김).
+- 경로 규칙: 쿼리·해시 제거 → 퍼센트 인코딩 해제 → `/slug/` 형태. 집계(`analytics.ts normalizePath`)와 통계 매핑(`fetch_stats.py normalize_path`)이 같은 규칙을 씁니다.
+
+### 환경 변수 · GitHub 설정
+
+| 이름 | 어디에 | 용도 | 비밀? | 없으면 |
+|------|--------|------|-------|--------|
+| `GATSBY_GA_MEASUREMENT_ID` | GitHub **Variables**(또는 Secrets) → 빌드 단계, 로컬은 `blog-front/.env.production` | GA4 측정 ID `G-XXXXXXXXXX`. 브라우저 코드에 포함됨 | 아니오 (공개 값) | GA4 스크립트 미삽입 |
+| `GATSBY_GOATCOUNTER_ENDPOINT` | GitHub **Variables**(또는 Secrets) → 통계 수집·빌드 단계, 로컬은 `.env.production` | `https://<코드>.goatcounter.com/count`. 집계·공개 카운터·API 주소 계산 | 아니오 (공개 값) | 조회수 수집·표시 전부 꺼짐 |
+| `GOATCOUNTER_API_TOKEN` | GitHub **Secrets** → 통계 수집 단계에서만 | GoatCounter API 토큰 (통계 읽기 권한만) | **예** — `GATSBY_` 접두사 금지, 브라우저·JSON·로그에 남기지 않음 | 인기 글·카드 조회수·`/stats/` 숨김 (상세 페이지 실시간 카운터는 동작) |
+| `GOATCOUNTER_STATS_START` | GitHub Variables (선택) | 누적 집계 시작일 `YYYY-MM-DD` (기본 `2026-10-01`) | 아니오 | 기본값 사용 |
+| `GOATCOUNTER_API_URL` | 로컬/Actions (선택) | API 주소 직접 지정 `https://<코드>.goatcounter.com/api/v0` | 아니오 | 엔드포인트에서 계산 |
+
+> 실제 값은 이 문서나 코드에 적지 않습니다. 로컬 `.env*` 파일은 `blog-front/.gitignore`에 포함되어 있습니다.
+> 분석 스크립트는 **운영 빌드(`gatsby build`)에서만** 삽입됩니다. `gatsby develop`에서는 수집하지 않습니다.
+
+### 외부 서비스 초기 설정 (사용자가 직접 해야 하는 일)
+
+1. **GA4**: [analytics.google.com](https://analytics.google.com) → 속성 만들기 → 웹 데이터 스트림(`https://logic-phantom.github.io`) → 측정 ID 복사
+   - 데이터 스트림 → 향상된 측정 → 페이지 조회 → 고급 설정 → **"브라우저 기록 이벤트 기반 페이지 변경" 해제** (사이트가 이동마다 page_view를 직접 보내므로, 켜 두면 중복 집계)
+2. **GoatCounter**: [goatcounter.com](https://www.goatcounter.com) 에서 사이트 생성(코드 = `<코드>.goatcounter.com`)
+   - Settings → **"Allow adding visitor counts on your website"** 켜기 (상세 페이지 실시간 조회수용, 기본 꺼짐)
+3. **GoatCounter API 토큰**: 사용자 메뉴 → API → 새 토큰, **통계 읽기(read statistics) 권한만** 선택
+4. **GitHub 저장소(TechLog) → Settings → Secrets and variables → Actions**
+   - Variables: `GATSBY_GA_MEASUREMENT_ID`, `GATSBY_GOATCOUNTER_ENDPOINT` (선택: `GOATCOUNTER_STATS_START`)
+   - Secrets: `GOATCOUNTER_API_TOKEN`
+5. **Google Search Console**: [search.google.com/search-console](https://search.google.com/search-console) → URL 접두어 `https://logic-phantom.github.io/` 추가 → 소유권 확인 (HTML 파일 방식이면 받은 파일을 `blog-front/static/`에 넣어 배포, 또는 GA4 연결 방식)
+6. Search Console → Sitemaps → `sitemap-index.xml` 제출
+7. 배포 후 확인: GA4 실시간 보고서, GoatCounter 대시보드, 게시글 상세의 `👁 조회수`, Actions 로그의 `[stats] 저장: ...` 줄, `/stats/` 페이지
+
+### 생성되는 공개 파일
+
+| 경로 | 내용 |
+|------|------|
+| `/sitemap-index.xml` → `/sitemap-0.xml` | 게시글·공개 페이지 (`/info/`·404 제외, 게시일을 수정일로 쓰지 않도록 `lastmod` 없음) |
+| `/robots.txt` | 전체 허용 + 사이트맵 위치 (`blog-front/static/robots.txt`) |
+| `/rss.xml` | 최신 50편: 제목·URL·summary·게시일·카테고리·썸네일(enclosure) |
+| `/stats/` | 전체 조회수·갱신 시각·집계 기간·TOP 5·게시글별 누적 조회수 (데이터 없으면 미설정 안내) |
+| `/data/popular-posts.json` | 빌드 때 생성된 경우에만. `generatedAt`·`metric`·기간·`totalViews`·`posts[{path, views}]` |
+
+게시글 프론트매터 선택 필드: `tags: ['a', 'b']`(관련 글 추천 보조), `updatedAt: 'YYYY-MM-DD'`(실제로 내용을 고쳤을 때만 → 구조화 데이터 `dateModified`). 기존 글에 없어도 빌드됩니다.
+
+### 장애 대응
+
+| 증상 | 확인할 것 |
+|------|-----------|
+| 조회수·인기 글이 안 보임 | ① Actions 로그 `Fetch view stats` 단계의 `[stats]` 메시지 ② 변수·시크릿 이름 ③ GoatCounter에 아직 데이터가 없으면 정상(숨김) ④ 상세 페이지 카운터는 GoatCounter 설정의 visitor counts 허용 여부, 응답은 최대 4시간 캐시 |
+| `[stats] 인증 실패 HTTP 401/403` | 토큰 값 오타·만료, 통계 읽기 권한 누락. 배포는 통계 없이 계속됨 |
+| `[stats] ... 미설정` | `GOATCOUNTER_API_TOKEN` 또는 `GATSBY_GOATCOUNTER_ENDPOINT` 미등록 (의도한 상태면 무시) |
+| GA4에 데이터가 없음 | 측정 ID 형식(`G-`), 빌드 로그의 `[analytics] ... 끕니다` 경고, 광고 차단기, 실시간 보고서는 수 분·일반 보고서는 24~48시간 지연 |
+| GA4 페이지뷰가 2배 | 위 1번의 "브라우저 기록 이벤트 기반 페이지 변경" 해제 여부 |
+| 검색에 안 나옴 | Search Console 소유권·사이트맵 제출 여부, URL 검사로 색인 요청. 신규 사이트는 수일~수주 소요 |
+| RSS가 없음 | `blog-front/public/rss.xml` 생성 여부(로컬 `npm run build`), `gatsby-plugin-feed` 설치 여부(`npm install`) |
+| 배포 빌드 실패 | 통계 단계는 `continue-on-error`라 원인이 아님. `Build the project` 로그에서 GraphQL·이미지 경로 오류 확인, 로컬 `npm run build` 재현 |
 
 ---
 
@@ -349,6 +451,7 @@ $g.Dispose(); $bmp.Dispose()
 - [ ] 본문 다이어그램 1~2장 삽입 및 경로 확인
 - [ ] 목차 / 비교표 / 코드 블록 / 함정 섹션 / 한 줄 요약 / 참고 자료 포함
 - [ ] 4절 "이미 다룬 영역" 표에 새 주제 추가
+- [ ] `python3 scripts/validate_post.py blog-front/contents/<슬러그>.md` 오류 0건
 
 ---
 
@@ -388,6 +491,7 @@ gatsby build
 
 ## 🔄 최근 업데이트
 
+- 성장 기반: sitemap·robots·OG·canonical·구조화 데이터, GA4, GoatCounter 조회수·인기 글·`/stats/`, 공유·관련 글, RSS, 자동 발행 품질 검증 (2026.10)
 - 자동 발행 안정화: Gemini 503·연결 끊김·잘린 응답 재시도, 하루 3회 스케줄로 실패 시 당일 재시도 (2026.10)
 - 썸네일 다양화: 레이아웃 5종 × 테마 6종 × 아이콘 16종 조합, 글마다 자동 순환 (2026.09)
 - **매일 12:00(KST) 자동 게시글 발행** — Gemini 무료 API + GitHub Actions (2026.09)
