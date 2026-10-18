@@ -77,7 +77,7 @@ TechLog/
 ├── scripts/
 │   ├── auto_post.py      # 매일 자동 게시글 생성 (Gemini API 호출 → 본문·이미지·검증·README 반영)
 │   ├── validate_post.py  # 게시글 품질·SEO 검증 (auto_post.py가 호출, 단독 실행 가능)
-│   ├── fetch_stats.py    # GoatCounter 통계 API → 공개 조회수 JSON (deploy.yml이 빌드 전에 실행)
+│   ├── fetch_stats.py    # GoatCounter 통계 API(실패 시 공개 카운터) → 공개 조회수 JSON (deploy.yml이 빌드 전에 실행)
 │   └── draw_kit.py       # 썸네일·다이어그램 렌더링 헬퍼 (Pillow, 공통 팔레트)
 └── .github/
     ├── workflows/
@@ -165,6 +165,7 @@ Gemini를 추가로 호출하지 않고, 새 글을 저장한 직후 스크립�
 [배포 빌드] deploy.yml
               ① scripts/fetch_stats.py  (GOATCOUNTER_API_TOKEN 사용, 서버 측에서만)
                    GoatCounter API /stats/total, /stats/hits → blog-front/static/data/popular-posts.json
+                   API 실패·토큰 없음 → 공개 카운터 /counter/<경로>.json 을 게시글마다 조회 (전체 누적)
                    (경로·숫자만 저장, 실제 게시글이 아닌 경로는 제외, 커밋하지 않음)
               ② gatsby build → 인기 글 TOP 5 · 카드 조회수 · /stats/ 페이지에 반영
 ```
@@ -179,7 +180,7 @@ Gemini를 추가로 호출하지 않고, 새 글을 저장한 직후 스크립�
 |------|--------|------|-------|--------|
 | `GATSBY_GA_MEASUREMENT_ID` | GitHub **Variables**(또는 Secrets) → 빌드 단계, 로컬은 `blog-front/.env.production` | GA4 측정 ID `G-XXXXXXXXXX`. 브라우저 코드에 포함됨 | 아니오 (공개 값) | GA4 스크립트 미삽입 |
 | `GATSBY_GOATCOUNTER_ENDPOINT` | GitHub **Variables**(또는 Secrets) → 통계 수집·빌드 단계, 로컬은 `.env.production` | `https://<코드>.goatcounter.com/count`. 집계·공개 카운터·API 주소 계산 | 아니오 (공개 값) | 조회수 수집·표시 전부 꺼짐 |
-| `GOATCOUNTER_API_TOKEN` | GitHub **Secrets** → 통계 수집 단계에서만 | GoatCounter API 토큰 (통계 읽기 권한만) | **예** — `GATSBY_` 접두사 금지, 브라우저·JSON·로그에 남기지 않음 | 인기 글·카드 조회수·`/stats/` 숨김 (상세 페이지 실시간 카운터는 동작) |
+| `GOATCOUNTER_API_TOKEN` | GitHub **Secrets** → 통계 수집 단계에서만 | GoatCounter API 토큰 (통계 읽기 권한만) | **예** — `GATSBY_` 접두사 금지, 브라우저·JSON·로그에 남기지 않음 | 공개 카운터로 대체 수집 (기간 지정 없이 전체 누적, 게시글 수만큼 요청) |
 | `GOATCOUNTER_STATS_START` | GitHub Variables (선택) | 누적 집계 시작일 `YYYY-MM-DD` (기본 `2026-10-01`) | 아니오 | 기본값 사용 |
 | `GOATCOUNTER_API_URL` | 로컬/Actions (선택) | API 주소 직접 지정 `https://<코드>.goatcounter.com/api/v0` | 아니오 | 엔드포인트에서 계산 |
 
@@ -218,9 +219,10 @@ Gemini를 추가로 호출하지 않고, 새 글을 저장한 직후 스크립�
 | 증상 | 확인할 것 |
 |------|-----------|
 | 조회수·인기 글이 안 보임 | ① Actions 로그 `Fetch view stats` 단계의 `[stats]` 메시지 ② 변수·시크릿 이름 ③ GoatCounter에 아직 데이터가 없으면 정상(숨김) ④ 상세 페이지 카운터는 GoatCounter 설정의 visitor counts 허용 여부, 응답은 최대 4시간 캐시 |
-| `[stats] 인증 실패 HTTP 401/403` | 토큰 값 오타·만료, 통계 읽기 권한 누락. 배포는 통계 없이 계속됨 |
-| `[stats] ... 미설정` | `GOATCOUNTER_API_TOKEN` 또는 `GATSBY_GOATCOUNTER_ENDPOINT` 미등록 (의도한 상태면 무시) |
-| `[stats] 통계 수집 실패: /stats/total HTTP 404` | GoatCounter 사이트를 만든 직후 방문 기록이 하나도 없으면 API가 404를 돌려줌. 사이트에 한 번 방문해 기록이 생긴 뒤 다시 배포 |
+| `[stats] API 통계 수집 실패: 인증 실패 HTTP 401/403` | 토큰 값 오타·만료, 통계 읽기 권한 누락. 공개 카운터로 대체 수집되므로 배포·통계는 계속됨 |
+| `[stats] ... 미설정` | `GATSBY_GOATCOUNTER_ENDPOINT` 미등록이면 통계 없음, `GOATCOUNTER_API_TOKEN`만 없으면 공개 카운터 사용 (의도한 상태면 무시) |
+| `[stats] API 통계 수집 실패: /stats/total HTTP 404` | 방문 기록 유무와 무관 (기록이 없어도 API는 `total: 0`을 돌려줌). GoatCounter는 토큰 인증 뒤 서버 DB 조회가 빈 결과일 때 404를 줌. 바로 다음 `[stats] 진단:` 줄 확인 — `/me 도 404`면 GoatCounter에서 토큰을 새로 발급해 `GOATCOUNTER_API_TOKEN` 교체. 그동안은 공개 카운터로 대체 수집됨 |
+| `[stats] 통계 수집 실패: 공개 카운터 사용 불가` | GoatCounter Settings → "Allow adding visitor counts" 꺼짐. 이때만 통계 없이 빌드 |
 | 배포는 성공했는데 사이트가 예전 화면 | `gatsby-plugin-offline` 서비스 워커 캐시. 시크릿 창으로 확인하거나 개발자 도구 → Application → Storage → **Clear site data**. 기존 방문자는 탭을 모두 닫은 뒤 다음 방문부터 새 버전이 보임 |
 | GA4에 데이터가 없음 | 측정 ID 형식(`G-`), 빌드 로그의 `[analytics] ... 끕니다` 경고, 광고 차단기, 실시간 보고서는 수 분·일반 보고서는 24~48시간 지연 |
 | GA4 페이지뷰가 2배 | 위 1번의 "브라우저 기록 이벤트 기반 페이지 변경" 해제 여부 |

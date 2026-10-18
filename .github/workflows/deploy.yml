@@ -30,10 +30,10 @@ jobs:
         npm install -g gatsby-cli  # gatsby-cli 글로벌 설치
 
     # 공개 조회수 JSON 생성 (선택). 토큰은 이 단계에서만 쓰고 결과 파일에는 경로·숫자만 남음.
-    # 시크릿이 없거나 API가 실패해도 배포는 계속된다 (통계 영역만 숨겨짐). 생성 파일은 커밋하지 않음
+    # 토큰이 없거나 API가 실패하면 공개 카운터로 게시글마다 조회, 그것도 실패하면 통계 영역만 숨기고 배포는 계속. 생성 파일은 커밋하지 않음
     - name: Fetch view stats from GoatCounter (optional)
       continue-on-error: true
-      timeout-minutes: 5
+      timeout-minutes: 10
       env:
         GOATCOUNTER_API_TOKEN: ${{ secrets.GOATCOUNTER_API_TOKEN }}
         GATSBY_GOATCOUNTER_ENDPOINT: ${{ vars.GATSBY_GOATCOUNTER_ENDPOINT || secrets.GATSBY_GOATCOUNTER_ENDPOINT }}

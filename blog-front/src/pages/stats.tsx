@@ -195,7 +195,7 @@ const StatsPage: FunctionComponent<StatsPageProps> = function ({
               </Summary>
               <Note>
                 집계 기준: GoatCounter 방문 수({siteStats.metric || 'visitors'}) ·{' '}
-                {siteStats.rangeStart ? siteStats.rangeStart.slice(0, 10) : '-'} ~{' '}
+                {siteStats.rangeStart ? siteStats.rangeStart.slice(0, 10) : '전체 기간'} ~{' '}
                 {siteStats.rangeEnd ? siteStats.rangeEnd.slice(0, 10) : '-'} · 배포 빌드 때마다 갱신
               </Note>
             </Block>
