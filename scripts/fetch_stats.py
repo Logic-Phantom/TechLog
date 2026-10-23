@@ -193,9 +193,8 @@ def main():
         log(f'GOATCOUNTER_STATS_START 형식 오류({start_day}) → 기본값 {DEFAULT_START} 사용')
         start_day = DEFAULT_START
     now = datetime.datetime.now(datetime.timezone.utc).replace(minute=0, second=0, microsecond=0)
-    # 게시글 날짜가 KST 라서 시작일도 KST 자정(= 전날 15:00 UTC)부터 센다. 저장은 UTC, 표시는 /stats/ 에서 KST 로 변환
-    kst_midnight = datetime.datetime.strptime(start_day, '%Y-%m-%d') - datetime.timedelta(hours=9)
-    start = kst_midnight.strftime('%Y-%m-%dT%H:%M:%SZ')
+    # 시작은 UTC 자정 그대로 둔다. KST 자정(전날 15:00 UTC)으로 당기면 측정 도입 전 구간이 되어 /stats/total 이 404
+    start = f'{start_day}T00:00:00Z'
     end = now.strftime('%Y-%m-%dT%H:%M:%SZ')
 
     slugs = post_slugs()
