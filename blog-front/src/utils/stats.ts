@@ -13,6 +13,14 @@ export type SiteStatsType = {
   posts: { path: string; views: number }[]
 }
 
+// 통계 JSON 의 시각은 UTC. 게시글 날짜(KST)와 맞추려고 +9시간 한 'YYYY-MM-DD HH:mm:ss' 로 바꾼다
+// (GraphQL formatString 은 UTC 기준이라 쓰지 않음, 빌드 서버 시간대와도 무관)
+export const toKst = function (value: string): string {
+  const time = Date.parse(value)
+  if (Number.isNaN(time)) return value.replace('T', ' ')
+  return new Date(time + 9 * 60 * 60 * 1000).toISOString().replace('T', ' ')
+}
+
 // 통계 경로를 실제 게시글 slug 와 매핑. 사이트에 없는 경로는 버린다
 export const buildViewsBySlug = function (
   stats: SiteStatsType | null | undefined,

@@ -5,7 +5,7 @@ import Template from 'components/Common/Template'
 import PopularPosts from 'components/Main/PopularPosts'
 import ScrollToTop from 'components/Common/ScrollToTop'
 import { PostListItemType } from 'types/PostItem.types'
-import { buildViewsBySlug, rankByViews, SiteStatsType } from 'utils/stats'
+import { buildViewsBySlug, rankByViews, SiteStatsType, toKst } from 'utils/stats'
 
 type StatsPageProps = {
   data: {
@@ -139,7 +139,9 @@ const Table = styled.table`
 `
 
 const formatDateTime = (value: string | null) =>
-  value ? `${value.replace('T', ' ').slice(0, 16)} UTC` : '-'
+  value ? `${toKst(value).slice(0, 16)} KST` : '-'
+
+const formatDate = (value: string | null) => (value ? toKst(value).slice(0, 10) : null)
 
 const StatsPage: FunctionComponent<StatsPageProps> = function ({
   data: {
@@ -195,8 +197,8 @@ const StatsPage: FunctionComponent<StatsPageProps> = function ({
               </Summary>
               <Note>
                 집계 기준: GoatCounter 방문 수({siteStats.metric || 'visitors'}) ·{' '}
-                {siteStats.rangeStart ? siteStats.rangeStart.slice(0, 10) : '전체 기간'} ~{' '}
-                {siteStats.rangeEnd ? siteStats.rangeEnd.slice(0, 10) : '-'} · 배포 빌드 때마다 갱신
+                {formatDate(siteStats.rangeStart) || '전체 기간'} ~{' '}
+                {formatDate(siteStats.rangeEnd || siteStats.generatedAt) || '-'} (KST) · 배포 빌드 때마다 갱신
               </Note>
             </Block>
 

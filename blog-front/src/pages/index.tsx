@@ -13,7 +13,7 @@ import { IGatsbyImageData } from 'gatsby-plugin-image'
 import queryString, { ParsedQuery } from 'query-string'
 import React, { FunctionComponent, useMemo } from 'react'
 import Template from 'components/Common/Template'
-import { buildViewsBySlug, rankByViews, SiteStatsType } from 'utils/stats'
+import { buildViewsBySlug, rankByViews, SiteStatsType, toKst } from 'utils/stats'
 //import { PostListItemType } from 'types/PostItem.types'
 
 const CATEGORY_LIST = {
@@ -114,7 +114,11 @@ const IndexPage: FunctionComponent<IndexPageProps> = function ({
       <Introduction profileImage={gatsbyImageData} />
       <PopularPosts
         items={popularPosts}
-        generatedAt={siteStats ? siteStats.generatedAt : null}
+        generatedAt={
+          siteStats && siteStats.generatedAt
+            ? `${toKst(siteStats.generatedAt).slice(0, 10).replace(/-/g, '.')}.`
+            : null
+        }
       />
       <CategoryList
         selectedCategory={selectedCategory}
@@ -175,7 +179,7 @@ export const getPostList = graphql`
     }
     siteStats {
       available
-      generatedAt(formatString: "YYYY.MM.DD.")
+      generatedAt
       posts {
         path
         views
