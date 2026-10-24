@@ -38,6 +38,9 @@
     "styled-components": "^6.1.12",
     "webpack": "^5.93.0"
   },
+  "overrides": {
+    "sharp": "$sharp"
+  },
   "devDependencies": {
     "gh-pages": "^6.2.0",
     "prettier": "^2.8.8",
