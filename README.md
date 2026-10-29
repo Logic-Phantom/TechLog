@@ -291,7 +291,7 @@ comments: true
 | 서버 | Spring / Spring Boot, JVM, VO·DTO, 모놀리스, 백엔드 API 비교, Supabase, Web vs WAS |
 | 인프라 | Jamstack, Vercel, 배포 아키텍처, 클라우드, PWA, WebView vs PWA, Feature Flag & 점진 배포 |
 | AI | LLM 개요, Web LLM, 브라우저 Transformer, MCP, 에이전틱 웹, AI 코딩 도구, AI 거버넌스, 바이브 코딩, YOLOv5, agno |
-| 보안 | 웹 보안 정책, 웹 취약점 대응, 패스키·WebAuthn |
+| 보안 | 웹 보안 정책, 웹 취약점 대응, 패스키·WebAuthn, FedCM API와 개인정보 보호 기반 통합 인증 |
 | 데이터·협업 | 로컬 퍼스트 & CRDT |
 | 데이터·브라우저 | Origin Private File System, SQLite in the Browser (WASM), Broadcast Channel API와 Multi-Tab Communication, Web Locks API와 다중 탭 동시성 제어 |
 
