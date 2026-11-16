@@ -23,7 +23,11 @@ const CategoryListWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 1268px;
+  /* 넓은 화면에서는 내용 폭 1268px 그대로, 그보다 좁으면 좌우 20px 여백을 두고 줄어든다 */
+  width: 100%;
+  max-width: 1308px;
+  padding-left: 20px;
+  padding-right: 20px;
   margin: 100px auto 0;
 
   @media (max-width: 768px) {

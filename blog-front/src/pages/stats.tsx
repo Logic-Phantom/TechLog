@@ -49,7 +49,11 @@ const PageTitle = styled.h1`
 
 const Content = styled.main`
   flex: 1;
-  width: 960px;
+  /* 넓은 화면에서는 내용 폭 960px 그대로, 그보다 좁으면 좌우 20px 여백을 두고 줄어든다 */
+  width: 100%;
+  max-width: 1000px;
+  padding-left: 20px;
+  padding-right: 20px;
   margin: 0 auto;
   padding-bottom: 80px;
 

@@ -9,10 +9,13 @@ const MarkdownRenderer = styled.div`
   // Renderer Style
   display: flex;
   flex-direction: column;
-  width: 768px;
+  /* 넓은 화면에서는 내용 폭 768px 그대로, 그보다 좁으면 좌우 20px 여백을 두고 줄어든다 */
+  width: 100%;
+  max-width: 808px;
+  padding-left: 20px;
+  padding-right: 20px;
   margin: 0 auto;
-  padding: 200px 0 0 0;
-  word-break: break-all;
+  padding-top: 200px;
 
   // Markdown Style
   line-height: 1.8;

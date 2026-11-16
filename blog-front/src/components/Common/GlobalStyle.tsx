@@ -17,6 +17,12 @@ const defaultStyle = css`
     height: 100%;
   }
 
+  /* 한글은 어절 단위로 줄바꿈하고, 긴 URL·영문 식별자만 필요할 때 끊는다 */
+  body {
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
   a,
   a:hover {
     color: inherit;

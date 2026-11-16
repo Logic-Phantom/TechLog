@@ -61,9 +61,23 @@ const PostListWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-gap: 20px;
-  width: 1268px;
+  /* 넓은 화면에서는 내용 폭 1268px 그대로, 그보다 좁으면 좌우 20px 여백을 두고 줄어든다 */
+  width: 100%;
+  max-width: 1308px;
+  padding-left: 20px;
+  padding-right: 20px;
   margin: 0 auto;
-  padding: 50px 0 100px;
+  padding-top: 50px;
+  padding-bottom: 100px;
+
+  /* 노트북·태블릿 가로 폭에서는 카드가 너무 좁아지지 않게 열 수를 줄인다 */
+  @media (max-width: 1100px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr 1fr;
+  }
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;

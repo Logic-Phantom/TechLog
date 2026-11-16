@@ -13,10 +13,15 @@ export type PostHeadInfoProps = {
 const PostHeadInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 768px;
+  /* 넓은 화면에서는 내용 폭 768px 그대로, 그보다 좁으면 좌우 20px 여백을 두고 줄어든다 */
+  width: 100%;
+  max-width: 808px;
+  padding-left: 20px;
+  padding-right: 20px;
   height: 100%;
   margin: 0 auto;
-  padding: 60px 0;
+  padding-top: 60px;
+  padding-bottom: 60px;
   color: #ffffff;
 
   @media (max-width: 768px) {

@@ -13,7 +13,11 @@ const ShareWrapper = styled.section`
   flex-wrap: wrap;
   align-items: center;
   gap: 10px;
-  width: 768px;
+  /* 넓은 화면에서는 내용 폭 768px 그대로, 그보다 좁으면 좌우 20px 여백을 두고 줄어든다 */
+  width: 100%;
+  max-width: 808px;
+  padding-left: 20px;
+  padding-right: 20px;
   margin: 80px auto 0;
   padding-top: 30px;
   border-top: 1px solid rgba(66, 105, 78, 0.2);
